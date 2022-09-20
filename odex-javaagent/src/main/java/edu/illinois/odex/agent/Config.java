@@ -8,7 +8,7 @@ import static org.objectweb.asm.Opcodes.ASM9;
 
 public class Config {
 
-    private static String agentName = "templateAgent";
+    private static String agentName = "odexAgent";
     public static int ASM_Version = ASM9;
 
     static {

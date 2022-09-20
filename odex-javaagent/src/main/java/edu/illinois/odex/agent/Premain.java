@@ -10,14 +10,14 @@ public class Premain {
 
     public static Set<String> prefixWhiteList = new HashSet<>();
     public static Set<String> thirdPartyPrefixWhiteList = Sets.newHashSet(
-            "org/junit/runner/notification/RunNotifier",  // junit4: public void fireTestStarted(final Description description)
-            "junit/textui/TestRunner",  // junit3: public void testStarted(String testName),
-            "org/junit/platform/runner/JUnitPlatformRunnerListener",  // junit5: public void executionStarted(TestIdentifier testIdentifier)
-            "org/junit/vintage/engine/execution/RunListenerAdapter"  // junit5: public void testRunStarted(Description description)
+            "org/junit/runner/notification/RunNotifier"  // junit4: public void fireTestStarted(final Description description)
+//            "junit/textui/TestRunner",  // junit3: public void testStarted(String testName),
+//            "org/junit/platform/runner/JUnitPlatformRunnerListener",  // junit5: public void executionStarted(TestIdentifier testIdentifier)
+//            "org/junit/vintage/engine/execution/RunListenerAdapter",  // junit5: public void testRunStarted(Description description)
+//            "org/junit/platform/launcher/core/CompositeTestExecutionListener"
     );
 
     public static void premain(String options, Instrumentation ins) {
-        System.out.println("******** Premain Start ********\n");
         LogUtils.agentInfo("******** Premain Start ********\n");
         parseArgs(options);
         ins.addTransformer(new InstrumentTransformer());

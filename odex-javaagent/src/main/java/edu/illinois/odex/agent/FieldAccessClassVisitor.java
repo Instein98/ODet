@@ -14,11 +14,12 @@ public class FieldAccessClassVisitor extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions){
         MethodVisitor mv = cv.visitMethod(access, name, descriptor, signature, exceptions);
-        // exclude <init> and <clinit>
-        if (name.equals("<init>") || name.equals("<clinit>")){
-            return mv;
-        }
-        return new FieldAccessMethodVisitor(mv, currentSlashClassName, name, descriptor, access);
+//        // exclude <init> and <clinit>
+//        if (name.equals("<init>") || name.equals("<clinit>")){
+//            return mv;
+//        }
+//        return new FieldAccessMethodVisitor(mv, currentSlashClassName, name, descriptor, access);
+        return mv;
     }
 }
 

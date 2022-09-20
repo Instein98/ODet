@@ -1,6 +1,7 @@
 package edu.illinois.odex.agent;
 
 import com.google.common.collect.Sets;
+import edu.illinois.odex.agent.cv.InterceptTestStartCV;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -24,6 +25,15 @@ public class InstrumentTransformer implements ClassFileTransformer {
             "javax",
             "jdk"
     );
+
+    public static Set<String> junitInstPrefixes = Sets.newHashSet(
+            "org/junit/runner/notification/RunNotifier"  // junit4: public void fireTestStarted(final Description description)
+//            "junit/textui/TestRunner",  // junit3: public void testStarted(String testName),
+//            "org/junit/platform/runner/JUnitPlatformRunnerListener",  // junit5: public void executionStarted(TestIdentifier testIdentifier)
+//            "org/junit/vintage/engine/execution/RunListenerAdapter",  // junit5: public void testRunStarted(Description description)
+//            "org/junit/platform/launcher/core/CompositeTestExecutionListener"
+    );
+
     private Set<String> PREFIX_WHITE_LIST = Premain.prefixWhiteList;
 
     @Override
@@ -37,34 +47,19 @@ public class InstrumentTransformer implements ClassFileTransformer {
         }
 
         if (PREFIX_WHITE_LIST == null || PREFIX_WHITE_LIST.size() == 0) {
-            for (String prefix: PREFIX_BLACK_LIST){
-                if (className.startsWith(prefix)){
-                    return result;
-                }
-            }
+            if (matchPrefix(className, PREFIX_BLACK_LIST)) return result;
         } else {
-            boolean matched = false;
-            for (String prefix: PREFIX_WHITE_LIST){
-                if (className.startsWith(prefix)){
-                    matched = true;
-                    break;
-                }
-            }
-            if (!matched){
-                for (String prefix: thirdPartyPrefixWhiteList){
-                    if (className.startsWith(prefix)){
-                        matched = true;
-                        break;
-                    }
-                }
-                if (!matched) return result;
-            }
+            if (!matchPrefix(className, PREFIX_WHITE_LIST) && !matchPrefix(className, thirdPartyPrefixWhiteList))
+                return result;
         }
 
         try{
             ClassReader cr = new ClassReader(result);
             ClassWriter cw = new ClassWriter(cr, 0);
             ClassVisitor cv = new FieldAccessClassVisitor(cw, className);
+            if (matchPrefix(className, junitInstPrefixes)){
+                cv = new InterceptTestStartCV(cv, className);
+            }
 
             cr.accept(cv, ClassReader.EXPAND_FRAMES);
 
@@ -74,9 +69,19 @@ public class InstrumentTransformer implements ClassFileTransformer {
 //                    + className.replace('/', '.') + ".class", result);
 
         } catch (Throwable t){
-            t.printStackTrace();
+            LogUtils.agentErr(t);
+//            t.printStackTrace();
         }
 
         return result;
+    }
+
+    private boolean matchPrefix(String slashClassName, Set<String> prefixSet){
+        for (String prefix: prefixSet){
+            if (slashClassName.startsWith(prefix)){
+                return true;
+            }
+        }
+        return false;
     }
 }
