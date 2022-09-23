@@ -1,7 +1,7 @@
 package edu.illinois.odex.agent;
 
 import com.google.common.collect.Sets;
-import edu.illinois.odex.agent.cv.InterceptTestStartCV;
+import edu.illinois.odex.agent.visitor.InterceptJunitTestEventCV;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -58,7 +58,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
             ClassWriter cw = new ClassWriter(cr, 0);
             ClassVisitor cv = new FieldAccessClassVisitor(cw, className);
             if (matchPrefix(className, junitInstPrefixes)){
-                cv = new InterceptTestStartCV(cv, className);
+                cv = new InterceptJunitTestEventCV(cv, className);
             }
 
             cr.accept(cv, ClassReader.EXPAND_FRAMES);
