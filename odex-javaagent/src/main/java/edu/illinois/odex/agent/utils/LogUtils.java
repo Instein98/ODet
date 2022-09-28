@@ -1,11 +1,13 @@
-package edu.illinois.odex.agent;
+package edu.illinois.odex.agent.utils;
+
+import edu.illinois.odex.agent.Config;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-import static edu.illinois.odex.agent.FileUtils.prepare;
+import static edu.illinois.odex.agent.utils.FileUtils.prepare;
 
 public class LogUtils {
 
@@ -26,11 +28,11 @@ public class LogUtils {
     }
 
     public static void agentInfo(String message){
-        FileUtils.write(agentInfoPath, message);
+        FileUtils.write(agentInfoPath, message + "\n");
     }
 
     public static void agentErr(String message){
-        FileUtils.write(agentErrPath, message);
+        FileUtils.write(agentErrPath, message + "\n");
     }
 
     public static void agentErr(Throwable t){

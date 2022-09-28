@@ -1,6 +1,7 @@
 package edu.illinois.odex.agent;
 
 import com.google.common.collect.Sets;
+import edu.illinois.odex.agent.utils.LogUtils;
 
 import java.lang.instrument.Instrumentation;
 import java.util.HashSet;
