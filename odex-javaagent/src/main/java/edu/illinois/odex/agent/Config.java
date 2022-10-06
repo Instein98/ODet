@@ -21,6 +21,7 @@ public class Config {
     }
 
     public static String workingDirectory() {
-        return System.getProperty("user.home") + "/agentLogs/" + agentName + "/" + version() + "/";
+//        return System.getProperty("user.home") + "/agentLogs/" + agentName + "/" + version() + "/";
+        return System.getProperty("user.home") + "/agentLogs/" + agentName + "/";  // for debug convenience
     }
 }

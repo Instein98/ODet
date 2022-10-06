@@ -30,11 +30,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
     );
 
     public static Set<String> junitInstPrefixes = Sets.newHashSet(
-            "org/junit/runner/notification/RunNotifier"  // junit4: public void fireTestStarted(final Description description)
-//            "junit/textui/TestRunner",  // junit3: public void testStarted(String testName),
-//            "org/junit/platform/runner/JUnitPlatformRunnerListener",  // junit5: public void executionStarted(TestIdentifier testIdentifier)
-//            "org/junit/vintage/engine/execution/RunListenerAdapter",  // junit5: public void testRunStarted(Description description)
-//            "org/junit/platform/launcher/core/CompositeTestExecutionListener"
+            "org/junit/runner/notification/RunNotifier"
     );
 
     private Set<String> PREFIX_WHITE_LIST = Premain.prefixWhiteList;
@@ -62,9 +58,10 @@ public class InstrumentTransformer implements ClassFileTransformer {
             ClassVisitor cv = new FieldAccessClassVisitor(cw, className);
             if (matchPrefix(className, junitInstPrefixes)){
                 cv = new InterceptJunitTestEventCV(cv, className);
+            } else {
+                cv = new StateRecorderCV(cv, className);
+                cv = new FieldCV(cv, className);  // should be the last one
             }
-            cv = new StateRecorderCV(cv, className);
-            cv = new FieldCV(cv, className);  // should be the last one
             cr.accept(cv, ClassReader.EXPAND_FRAMES);
 
             result = cw.toByteArray();
@@ -74,7 +71,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
 
         } catch (Throwable t){
             LogUtils.agentErr(t);
-//            t.printStackTrace();
+            t.printStackTrace();
         }
 
         return result;

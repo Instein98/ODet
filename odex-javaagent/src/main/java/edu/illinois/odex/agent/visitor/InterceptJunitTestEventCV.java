@@ -43,10 +43,6 @@ class InterceptJunitTestEventMV extends MethodVisitor {
     @Override
     public void visitCode() {
         mv.visitCode();
-//        "org/junit/runner/notification/RunNotifier",  // junit4: public void fireTestStarted(final Description description)
-//        "junit/textui/TestRunner",  // junit3: public void testStarted(String testName),
-//        "org/junit/platform/runner/JUnitPlatformRunnerListener",  // junit5: public void executionStarted(TestIdentifier testIdentifier)
-//        "org/junit/vintage/engine/execution/RunListenerAdapter"  // junit5: public void testRunStarted(Description description)
         // Currently working for junit3 & junit4. Todo: instrument for junit5
         if ("org/junit/runner/notification/RunNotifier".equals(currentSlashClassName)
                 && "fireTestStarted".equals(currentMethodName)

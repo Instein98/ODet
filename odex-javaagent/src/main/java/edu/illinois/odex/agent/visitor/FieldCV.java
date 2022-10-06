@@ -24,6 +24,7 @@ public class FieldCV extends ClassVisitor {
     @Override
     public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
         String fieldIdentifier = getFieldIdentifier(currentSlashClassName, name, descriptor);
+//        System.out.println("fieldIdentifier: " + fieldIdentifier);
         putFieldAccessFlag(fieldIdentifier, access);
         return cv.visitField(access, name, descriptor, signature, value);
     }

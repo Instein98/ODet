@@ -11,8 +11,8 @@ import static edu.illinois.odex.agent.utils.FileUtils.prepare;
 
 public class LogUtils {
 
-    public static final String agentInfoPath = Config.workingDirectory() + "agentInfo.log";
-    public static final String agentErrPath = Config.workingDirectory() + "agentErr.log";
+    public static final String agentInfoPath = Config.workingDirectory() + "out.log";
+    public static final String agentErrPath = Config.workingDirectory() + "err.log";
 
     static {
         prepare(agentInfoPath);

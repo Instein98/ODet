@@ -42,6 +42,7 @@ class StateAccessRecorderMV extends MethodVisitor {
 
     @Override
     public void visitFieldInsn(int opcode, String owner, String name, String descriptor){
+        // Todo: support GETFIELD and PUTFIELD
         if (opcode == GETSTATIC || opcode == PUTSTATIC) {
             mv.visitLdcInsn(opcode);
             mv.visitLdcInsn(owner);

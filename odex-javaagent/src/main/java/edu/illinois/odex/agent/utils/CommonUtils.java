@@ -25,10 +25,12 @@ public class CommonUtils {
     }
 
     public static int getFieldAccessFlag(String fieldId){
+        if (fieldId == null || !fieldAccessFlagMap.containsKey(fieldId))
+            return 0;
         return fieldAccessFlagMap.get(fieldId);
     }
 
-    public static int putFieldAccessFlag(String fieldId, int access){
-        return fieldAccessFlagMap.put(fieldId, access);
+    public static void putFieldAccessFlag(String fieldId, int access){
+            fieldAccessFlagMap.put(fieldId, access);
     }
 }
