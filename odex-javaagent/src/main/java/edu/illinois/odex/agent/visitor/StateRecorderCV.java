@@ -23,6 +23,7 @@ public class StateRecorderCV extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions){
         MethodVisitor mv = cv.visitMethod(access, name, descriptor, signature, exceptions);
+        // exclude <clinit> because it happens during loading instead of test execution
         if (!"<clinit>".equals(name)){
             mv = new StateAccessRecorderMV(mv);
         }

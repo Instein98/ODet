@@ -11,9 +11,9 @@ public class Config {
     private static String agentName = "odexAgent";
     public static int ASM_Version = ASM9;
 
-    static {
-        System.err.println(Paths.get(workingDirectory()).toAbsolutePath());
-    }
+//    static {
+//        System.err.println(Paths.get(workingDirectory()).toAbsolutePath());
+//    }
 
     public static synchronized String version() {
         String version = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss").format(new Date());

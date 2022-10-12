@@ -45,23 +45,12 @@ public class StateRecorder {
                 || ((access & ACC_PUBLIC) != 0 && (access & ACC_STATIC) != 0);
     }
 
+//    public static void
+
     public static void stateAccess(int opcode, String owner, String name, String descriptor, Object value){
         if (currentTestIdentifier == null)
             return;
-//        String fieldType = null;  // "STATIC" or "FIELD"
-//        if (opcode == GETSTATIC || opcode == PUTSTATIC){
-//            fieldType = "STATIC";  // GETSTATIC or PUTSTATIC
-//        } else if (opcode == GETFIELD || opcode == PUTFIELD){
-//            fieldType = "FIELD";  // GETFIELD or PUTFIELD
-//        } else {
-//            LogUtils.agentInfo("Unknown opcode: " + opcode);
-//            return;
-//        }
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
-//        if (!fieldAccessFlagMap.containsKey(fieldIdentifier)){
-//            LogUtils.agentInfo("Field " + fieldIdentifier + " not found!!!");
-//            return;
-//        }
         if (needRecordField(fieldIdentifier)){
             LogUtils.agentInfo("Recorded Field Access: " + fieldIdentifier);
             System.out.println("Recorded Field Access: " + fieldIdentifier);
@@ -77,5 +66,33 @@ public class StateRecorder {
                 }
             }
         }
+    }
+
+    public static void checkFieldState(String owner, String name, String descriptor, Object value){
+        if (currentTestIdentifier == null){
+            LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
+            return;
+        }
+        String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
+        Object originalValue = testAccessedFieldsMap.get(currentTestIdentifier).get(fieldIdentifier);
+        if (originalValue == null){
+            LogUtils.agentErr("[ERROR] originalValue == null when try to check field state");
+            return;
+        }
+        if (!originalValue.equals(value)){
+            LogUtils.agentInfo(String.format("[IMPORTANT] Value of %s changed after test %s execution!", fieldIdentifier, currentTestIdentifier));
+        }
+    }
+
+    public static boolean needCheckField(String owner, String name, String descriptor){
+        if (currentTestIdentifier == null){
+            LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
+            return false;
+        }
+        String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
+        if (testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
+            return true;
+        }
+        return false;
     }
 }

@@ -1,6 +1,7 @@
 package edu.illinois.odex.agent.visitor;
 
 
+import edu.illinois.odex.agent.utils.CommonUtils;
 import edu.illinois.odex.agent.utils.LogUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
@@ -13,7 +14,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static edu.illinois.odex.agent.Config.ASM_Version;
+import static edu.illinois.odex.agent.utils.CommonUtils.STATE_RECORDER;
 import static org.objectweb.asm.Opcodes.*;
+
+/**
+ * @author Yicheng Ouyang
+ * @Date 9/29/22
+ */
 
 public class StatePollutionCheckerCV extends ClassVisitor {
     private String slashClassName;
@@ -23,11 +30,16 @@ public class StatePollutionCheckerCV extends ClassVisitor {
     private boolean isParameterizedTestClass;
     private int classVersion;
 
-    StatePollutionCheckerCV(ClassVisitor classVisitor, String className, ClassLoader loader, int classVersion) {
+    // "Lorg/junit/After;" or "Lorg/junit/jupiter/api/AfterEach;"
+    // or null if the class has no methods with annotation @After or @AfterEach
+    private String afterEachAnnotation;
+
+    public StatePollutionCheckerCV(ClassVisitor classVisitor, String className, ClassLoader loader, int classVersion, String afterEachAnnotation) {
         super(ASM_Version, classVisitor);
         this.slashClassName = className;
         this.loader = loader;
         this.classVersion = classVersion;
+        this.afterEachAnnotation = afterEachAnnotation;
     }
 
     @Override
@@ -73,7 +85,7 @@ public class StatePollutionCheckerCV extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 //        log("Visiting method " + slashClassName + "#" + name, null);
-        return new StatePollutionCheckerMV(mv, slashClassName, name, descriptor, isJUnit3TestClass, isParameterizedTestClass, this.classVersion);
+        return new StatePollutionCheckerMV(mv, slashClassName, name, descriptor, isJUnit3TestClass, isParameterizedTestClass, this.classVersion, afterEachAnnotation);
     }
 
     private byte[] loadByteCode(InputStream inStream) throws IOException {
@@ -102,12 +114,18 @@ class StatePollutionCheckerMV extends MethodVisitor {
     private boolean isTestMethod;
     private int classVersion;
 
+    // If @After/@AfterEach methods exist, need to check state at the end of these methods
+    // Otherwise, check state before the test method return
+    private String afterEachAnnotation;
+    private boolean isAfterEachMethod = false;
+
     // insert a try catch block for the whole test method to capture the exception thrown
     private Label tryStart;
     private Label tryEndCatchStart;
 
     public StatePollutionCheckerMV(MethodVisitor methodVisitor, String className, String methodName,
-                                   String desc, boolean isJUnit3TestClass, boolean isParameterizedTestClass, int classVersion) {
+                                   String desc, boolean isJUnit3TestClass, boolean isParameterizedTestClass,
+                                   int classVersion, String afterEachAnnotation) {
         super(ASM_Version, methodVisitor);
         this.slashClassName = className;
         this.methodName = methodName;
@@ -116,6 +134,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
         this.isParameterizedTestClass = isParameterizedTestClass;
         this.hasNoParameters = desc.contains("()");
         this.classVersion = classVersion;
+        this.afterEachAnnotation = afterEachAnnotation;
     }
 
     @Override
@@ -124,6 +143,8 @@ class StatePollutionCheckerMV extends MethodVisitor {
             this.hasTestAnnotation = true;
         } else if (descriptor.equals("Lorg/junit/jupiter/params/ParameterizedTest;")){
             this.hasPrameterizedTestAnnotation = true;
+        } else if (descriptor.equals(afterEachAnnotation)){
+            isAfterEachMethod = true;
         }
         return super.visitAnnotation(descriptor, visible);
     }
@@ -148,9 +169,12 @@ class StatePollutionCheckerMV extends MethodVisitor {
     public void visitInsn(int opcode) {
         // reporting the test end event when return normally (add big try-catch block to handle exception throwing)
         if (isTestMethod && opcode >= IRETURN && opcode <= RETURN){
-//            super.visitLdcInsn(this.slashClassName);
-//            super.visitLdcInsn(this.methodName);
-//            super.visitMethodInsn(INVOKESTATIC, "", "testEnd", "(Ljava/lang/String;Ljava/lang/String;)V", false);
+            // this is where the test method exit, check states if no @After/@AfterEach methods
+            if (afterEachAnnotation == null){
+                instCheckStatesCode();
+            }
+        } else if (isAfterEachMethod && opcode >= IRETURN && opcode <= RETURN){
+            instCheckStatesCode();
         }
         super.visitInsn(opcode);
     }
@@ -166,14 +190,39 @@ class StatePollutionCheckerMV extends MethodVisitor {
             if (this.classVersion >= 50){
                 super.visitFrame(F_FULL, 0, null, 1, new Object[]{"java/lang/Throwable"});
             }
-            // report test method end
-//            super.visitLdcInsn(this.slashClassName);
-//            super.visitLdcInsn(this.methodName);
-//            super.visitMethodInsn(INVOKESTATIC, "",
-//                    "testEnd", "(Ljava/lang/String;Ljava/lang/String;)V", false);
+            // this is where the test method exit, check states if no @After/@AfterEach methods
+            if (afterEachAnnotation == null){
+                instCheckStatesCode();
+            }
             // rethrow the caught exception
             mv.visitInsn(ATHROW);
         }
         super.visitMaxs(maxStack+4, maxLocals);
+    }
+
+    private void instCheckStatesCode(){
+        for (String fieldId: CommonUtils.getFieldIds()){
+            String[] tmp = fieldId.split("#");
+            String fieldOwner = tmp[0];
+            String fieldName = tmp[1];
+            String fieldDesc = tmp[2];
+            int accessFlag = CommonUtils.getFieldAccessFlag(fieldId);
+            // public static fields or private/protected fields in current class  Todo: support non-static fields
+            if ((accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0 || fieldOwner.equals(slashClassName))){
+                Label skipLabel = new Label();
+                super.visitLdcInsn(fieldOwner);
+                super.visitLdcInsn(fieldName);
+                super.visitLdcInsn(fieldDesc);
+                super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "needCheckField", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z", false);
+                super.visitJumpInsn(IFEQ, skipLabel);
+                super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);
+                super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                super.visitLabel(skipLabel);
+                if (this.classVersion >= 50){
+                    super.visitFrame(F_SAME, 0, null, 0, null);
+                }
+            }
+
+        }
     }
 }

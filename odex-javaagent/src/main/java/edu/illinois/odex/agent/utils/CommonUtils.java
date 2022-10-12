@@ -2,6 +2,7 @@ package edu.illinois.odex.agent.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Yicheng Ouyang
@@ -9,6 +10,8 @@ import java.util.Map;
  */
 
 public class CommonUtils {
+
+    public static final String STATE_RECORDER = "edu/illinois/odex/agent/app/StateRecorder";
 
     private static Map<String, Integer> fieldAccessFlagMap = new HashMap<>();
 
@@ -32,5 +35,25 @@ public class CommonUtils {
 
     public static void putFieldAccessFlag(String fieldId, int access){
             fieldAccessFlagMap.put(fieldId, access);
+    }
+
+    public static Set<String> getFieldIds(){
+        return fieldAccessFlagMap.keySet();
+    }
+
+    public static void printRecordedFieldsInfo(){
+        for (String key: fieldAccessFlagMap.keySet()){
+            System.out.println(key + ": " + fieldAccessFlagMap.get(key));
+        }
+    }
+
+    public static boolean matchPrefix(String slashClassName, Set<String> prefixSet){
+        if (prefixSet == null || prefixSet.size() == 0) return true;
+        for (String prefix: prefixSet){
+            if (slashClassName.startsWith(prefix)){
+                return true;
+            }
+        }
+        return false;
     }
 }
