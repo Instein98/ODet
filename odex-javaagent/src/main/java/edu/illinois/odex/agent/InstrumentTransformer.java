@@ -64,11 +64,11 @@ public class InstrumentTransformer implements ClassFileTransformer {
             ClassVisitor cv = new FieldAccessClassVisitor(cw, className);
             if (CommonUtils.matchPrefix(className, junitInstPrefixes)){
                 cv = new InterceptJunitTestEventCV(cv, className);
-                cr.accept(cv, ClassReader.EXPAND_FRAMES);
+                cr.accept(cv, 0);
             } else {
                 // check the class information before pass it to visitors
                 ClassNode cn = new ClassNode();
-                cr.accept(cn, ClassReader.EXPAND_FRAMES);
+                cr.accept(cn, 0);
                 String afterEachAnnotation = getClassAfterEachMethodAnnotation(cn);
 
                 cv = new StatePollutionCheckerCV(cv, className, loader, getClassVersion(cr), afterEachAnnotation);

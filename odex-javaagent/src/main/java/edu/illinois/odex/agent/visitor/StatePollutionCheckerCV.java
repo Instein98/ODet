@@ -213,14 +213,8 @@ class StatePollutionCheckerMV extends MethodVisitor {
                 super.visitLdcInsn(fieldOwner);
                 super.visitLdcInsn(fieldName);
                 super.visitLdcInsn(fieldDesc);
-                super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "needCheckField", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z", false);
-                super.visitJumpInsn(IFEQ, skipLabel);
-                super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);
+                super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);  // Todo: check if this is necessary first and then access the field to be more efficient
                 super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
-                super.visitLabel(skipLabel);
-                if (this.classVersion >= 50){
-                    super.visitFrame(F_SAME, 0, null, 0, null);
-                }
             }
 
         }

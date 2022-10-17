@@ -57,7 +57,7 @@ public class StateRecorder {
             if (!testAccessedFieldsMap.containsKey(fieldIdentifier)){
                 Map<String, Object> fieldValueMap = new HashMap<>();
                 fieldValueMap.put(fieldIdentifier, value);
-                testAccessedFieldsMap.put(fieldIdentifier, fieldValueMap);
+                testAccessedFieldsMap.put(currentTestIdentifier, fieldValueMap);
             } else {
                 Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(fieldIdentifier);
                 // do nothing if the field state is already recorded in the test execution
@@ -74,13 +74,20 @@ public class StateRecorder {
             return;
         }
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
-        Object originalValue = testAccessedFieldsMap.get(currentTestIdentifier).get(fieldIdentifier);
-        if (originalValue == null){
-            LogUtils.agentErr("[ERROR] originalValue == null when try to check field state");
+        if (!testAccessedFieldsMap.containsKey(currentTestIdentifier) || !testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
+//            printTestAccessedFieldsMap();
+//            System.out.println("testAccessedFieldsMap.containsKey(currentTestIdentifier): " + testAccessedFieldsMap.containsKey(currentTestIdentifier));
+//            System.out.println("testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier): " + testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier));
+//            System.out.println("skip field checking: " + fieldIdentifier);
             return;
         }
-        if (!originalValue.equals(value)){
+        Object originalValue = testAccessedFieldsMap.get(currentTestIdentifier).get(fieldIdentifier);
+
+        if ((originalValue == null && value != null) || (originalValue != null && !originalValue.equals(value))){
             LogUtils.agentInfo(String.format("[IMPORTANT] Value of %s changed after test %s execution!", fieldIdentifier, currentTestIdentifier));
+            System.out.println(String.format("[IMPORTANT] Value of %s changed after test %s execution!", fieldIdentifier, currentTestIdentifier));
+        } else {
+//            System.out.println(String.format("[IMPORTANT] Value of %s does not change after test %s execution!", fieldIdentifier, currentTestIdentifier));
         }
     }
 
@@ -94,5 +101,15 @@ public class StateRecorder {
             return true;
         }
         return false;
+    }
+
+    private static void printTestAccessedFieldsMap(){
+        for (String key: testAccessedFieldsMap.keySet()){
+            System.out.println("Test: " + key);
+            Map<String, Object> recordedMap = testAccessedFieldsMap.get(key);
+            for (String fid: recordedMap.keySet()){
+                System.out.println(String.format("    %s: %s", fid, recordedMap.get(fid).toString()));
+            }
+        }
     }
 }

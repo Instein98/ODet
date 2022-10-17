@@ -52,6 +52,8 @@ public class Premain {
 
     private static void recordFields(Path path){
         boolean match = false;
+        if (!path.toString().endsWith(".class"))
+            return;
         for (String prefix: prefixWhiteList){
             if (path.toString().contains(prefix)){
 //                System.out.println(path.toString() + " is matched");  // debug
@@ -63,6 +65,7 @@ public class Premain {
             return;
         }
         File target = path.toFile();
+//        System.out.println("Loading " + path);  // debug
         try(FileInputStream fis = new FileInputStream(target)){
             ClassReader cr = new ClassReader(fis);
             ClassNode cn = new ClassNode();
