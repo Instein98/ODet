@@ -45,27 +45,74 @@ public class StateRecorder {
                 || ((access & ACC_PUBLIC) != 0 && (access & ACC_STATIC) != 0);
     }
 
-//    public static void
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, byte value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, boolean value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, char value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, short value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, int value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, long value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, float value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
+    public static void stateAccess(int opcode, String owner, String name, String descriptor, double value){
+        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    }
 
     public static void stateAccess(int opcode, String owner, String name, String descriptor, Object value){
         if (currentTestIdentifier == null)
             return;
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
         if (needRecordField(fieldIdentifier)){
-            LogUtils.agentInfo("Recorded Field Access: " + fieldIdentifier);
-            System.out.println("Recorded Field Access: " + fieldIdentifier);
-            if (!testAccessedFieldsMap.containsKey(fieldIdentifier)){
-                Map<String, Object> fieldValueMap = new HashMap<>();
-                fieldValueMap.put(fieldIdentifier, value);
-                testAccessedFieldsMap.put(currentTestIdentifier, fieldValueMap);
-            } else {
-                Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(fieldIdentifier);
-                // do nothing if the field state is already recorded in the test execution
-                if (!fieldValueMap.containsKey(fieldIdentifier)){
-                    fieldValueMap.put(fieldIdentifier, value);
-                }
+            if (!testAccessedFieldsMap.containsKey(currentTestIdentifier)) {
+                testAccessedFieldsMap.put(currentTestIdentifier, new HashMap<>());
             }
+            // if the field is already recorded as dependent, and its value is also recorded,
+            // then return since we only want to record its value before the first access.
+            else if (testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
+                return;
+            }
+            Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(currentTestIdentifier);
+            fieldValueMap.put(fieldIdentifier, value);
+            LogUtils.agentInfo("[Odet] Recorded Field Access: " + fieldIdentifier);
+            System.out.println("[Odet] Recorded Field Access: " + fieldIdentifier);
         }
+    }
+
+    public static void checkFieldState(String owner, String name, String descriptor, byte value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, short value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, char value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, int value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, long value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, float value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, double value){
+        checkFieldState(owner, name, descriptor, (Object) value);
+    }
+    public static void checkFieldState(String owner, String name, String descriptor, boolean value){
+        checkFieldState(owner, name, descriptor, (Object) value);
     }
 
     public static void checkFieldState(String owner, String name, String descriptor, Object value){

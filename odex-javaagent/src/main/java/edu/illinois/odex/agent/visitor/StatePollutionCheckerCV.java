@@ -209,12 +209,16 @@ class StatePollutionCheckerMV extends MethodVisitor {
             int accessFlag = CommonUtils.getFieldAccessFlag(fieldId);
             // public static fields or private/protected fields in current class  Todo: support non-static fields
             if ((accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0 || fieldOwner.equals(slashClassName))){
-                Label skipLabel = new Label();
+                LogUtils.agentInfo(fieldDesc);
                 super.visitLdcInsn(fieldOwner);
                 super.visitLdcInsn(fieldName);
                 super.visitLdcInsn(fieldDesc);
                 super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);  // Todo: check if this is necessary first and then access the field to be more efficient
-                super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                if (fieldDesc.equals("C") || fieldDesc.equals("S") || fieldDesc.equals("I") || fieldDesc.equals("J") || fieldDesc.equals("F") || fieldDesc.equals("D") || fieldDesc.equals("Z") || fieldDesc.equals("B")){
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
+                } else {
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                }
             }
 
         }
