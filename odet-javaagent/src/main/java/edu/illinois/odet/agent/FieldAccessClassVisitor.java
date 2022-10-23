@@ -1,8 +1,8 @@
-package edu.illinois.odex.agent;
+package edu.illinois.odet.agent;
 
 import org.objectweb.asm.*;
 
-import static edu.illinois.odex.agent.Config.ASM_Version;
+import static edu.illinois.odet.agent.Config.ASM_Version;
 
 public class FieldAccessClassVisitor extends ClassVisitor {
     private String currentSlashClassName;

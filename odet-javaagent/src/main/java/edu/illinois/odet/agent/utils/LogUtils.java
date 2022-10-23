@@ -1,13 +1,11 @@
-package edu.illinois.odex.agent.utils;
+package edu.illinois.odet.agent.utils;
 
-import edu.illinois.odex.agent.Config;
+import edu.illinois.odet.agent.Config;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-
-import static edu.illinois.odex.agent.utils.FileUtils.prepare;
 
 public class LogUtils {
 
@@ -15,8 +13,8 @@ public class LogUtils {
     public static final String agentErrPath = Config.workingDirectory() + "err.log";
 
     static {
-        prepare(agentInfoPath);
-        prepare(agentErrPath);
+        FileUtils.prepare(agentInfoPath);
+        FileUtils.prepare(agentErrPath);
         File infoFile = new File(agentInfoPath);
         if (infoFile.exists()){
             infoFile.delete();
@@ -36,7 +34,7 @@ public class LogUtils {
     }
 
     public static void agentErr(Throwable t){
-        prepare(agentErrPath);
+        FileUtils.prepare(agentErrPath);
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(agentErrPath, true))){
             t.printStackTrace(new PrintWriter(bw));
         } catch (Throwable x){

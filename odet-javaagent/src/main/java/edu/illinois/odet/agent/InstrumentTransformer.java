@@ -1,13 +1,13 @@
-package edu.illinois.odex.agent;
+package edu.illinois.odet.agent;
 
 import com.google.common.collect.Sets;
-import edu.illinois.odex.agent.utils.CommonUtils;
-import edu.illinois.odex.agent.utils.FileUtils;
-import edu.illinois.odex.agent.utils.LogUtils;
-import edu.illinois.odex.agent.visitor.FieldCV;
-import edu.illinois.odex.agent.visitor.InterceptJunitTestEventCV;
-import edu.illinois.odex.agent.visitor.StatePollutionCheckerCV;
-import edu.illinois.odex.agent.visitor.StateRecorderCV;
+import edu.illinois.odet.agent.visitor.InterceptJunitTestEventCV;
+import edu.illinois.odet.agent.utils.CommonUtils;
+import edu.illinois.odet.agent.utils.FileUtils;
+import edu.illinois.odet.agent.utils.LogUtils;
+import edu.illinois.odet.agent.visitor.FieldCV;
+import edu.illinois.odet.agent.visitor.StatePollutionCheckerCV;
+import edu.illinois.odet.agent.visitor.StateRecorderCV;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -20,14 +20,12 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.Set;
 
-import static edu.illinois.odex.agent.Premain.thirdPartyPrefixWhiteList;
-
 public class InstrumentTransformer implements ClassFileTransformer {
 
     private String transformerName = "InstrumentTransformer";
 
     Set<String> PREFIX_BLACK_LIST = Sets.newHashSet(
-            "edu/illinois/odex",
+            "edu/illinois/odet",
             "java",
             "sun",
             "com/sun",
@@ -54,7 +52,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
         if (PREFIX_WHITE_LIST == null || PREFIX_WHITE_LIST.size() == 0) {
             if (CommonUtils.matchPrefix(className, PREFIX_BLACK_LIST)) return result;
         } else {
-            if (!CommonUtils.matchPrefix(className, PREFIX_WHITE_LIST) && !CommonUtils.matchPrefix(className, thirdPartyPrefixWhiteList))
+            if (!CommonUtils.matchPrefix(className, PREFIX_WHITE_LIST) && !CommonUtils.matchPrefix(className, Premain.thirdPartyPrefixWhiteList))
                 return result;
         }
 

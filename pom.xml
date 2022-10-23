@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.illinois</groupId>
-    <artifactId>odex</artifactId>
+    <artifactId>odet</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
@@ -18,7 +18,7 @@
     </developers>
 
     <modules>
-        <module>odex-javaagent</module>
+        <module>odet-javaagent</module>
     </modules>
 
 </project>

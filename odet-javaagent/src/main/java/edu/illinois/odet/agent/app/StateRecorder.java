@@ -1,14 +1,16 @@
-package edu.illinois.odex.agent.app;
+package edu.illinois.odet.agent.app;
 
-import edu.illinois.odex.agent.utils.LogUtils;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
+import edu.illinois.odet.agent.utils.LogUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static edu.illinois.odex.agent.utils.CommonUtils.getDotClassNameFromTestIdentifier;
-import static edu.illinois.odex.agent.utils.CommonUtils.getFieldAccessFlag;
-import static edu.illinois.odex.agent.utils.CommonUtils.getFieldIdentifier;
-import static edu.illinois.odex.agent.utils.CommonUtils.slashToDotName;
+import static edu.illinois.odet.agent.utils.CommonUtils.getDotClassNameFromTestIdentifier;
+import static edu.illinois.odet.agent.utils.CommonUtils.getFieldAccessFlag;
+import static edu.illinois.odet.agent.utils.CommonUtils.getFieldIdentifier;
+import static edu.illinois.odet.agent.utils.CommonUtils.slashToDotName;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -18,10 +20,16 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class StateRecorder {
 
+    public static XStream xs = new XStream();
+
     private static String currentTestIdentifier = null;
 
     //                       accessedFields  fieldValue
     private static Map<String, Map<String, Object>> testAccessedFieldsMap = new HashMap<>();
+
+    static {
+        xs.addPermission(AnyTypePermission.ANY);
+    }
 
     // testIdentifier: fullyQualifiedClassName#testMethod
     public static void junitTestStart(String testIdentifier){
@@ -84,6 +92,10 @@ public class StateRecorder {
                 return;
             }
             Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(currentTestIdentifier);
+
+            // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
+            value = xs.fromXML(xs.toXML(value));
+
             fieldValueMap.put(fieldIdentifier, value);
             LogUtils.agentInfo("[Odet] Recorded Field Access: " + fieldIdentifier);
             System.out.println("[Odet] Recorded Field Access: " + fieldIdentifier);

@@ -1,4 +1,4 @@
-package edu.illinois.odex.agent;
+package edu.illinois.odet.agent;
 
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -8,7 +8,7 @@ import static org.objectweb.asm.Opcodes.ASM9;
 
 public class Config {
 
-    private static String agentName = "odexAgent";
+    private static String agentName = "odetAgent";
     public static int ASM_Version = ASM9;
 
 //    static {

@@ -1,8 +1,8 @@
-package edu.illinois.odex.agent;
+package edu.illinois.odet.agent;
 
 import com.google.common.collect.Sets;
-import edu.illinois.odex.agent.utils.CommonUtils;
-import edu.illinois.odex.agent.utils.LogUtils;
+import edu.illinois.odet.agent.utils.CommonUtils;
+import edu.illinois.odet.agent.utils.LogUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -19,9 +19,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static edu.illinois.odex.agent.utils.CommonUtils.getFieldIdentifier;
-import static edu.illinois.odex.agent.utils.CommonUtils.printRecordedFieldsInfo;
-import static edu.illinois.odex.agent.utils.CommonUtils.putFieldAccessFlag;
+import static edu.illinois.odet.agent.utils.CommonUtils.getFieldIdentifier;
+import static edu.illinois.odet.agent.utils.CommonUtils.putFieldAccessFlag;
 
 public class Premain {
 

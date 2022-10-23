@@ -1,8 +1,9 @@
-package edu.illinois.odex.agent.visitor;
+package edu.illinois.odet.agent.visitor;
 
 
-import edu.illinois.odex.agent.utils.CommonUtils;
-import edu.illinois.odex.agent.utils.LogUtils;
+import edu.illinois.odet.agent.Config;
+import edu.illinois.odet.agent.utils.CommonUtils;
+import edu.illinois.odet.agent.utils.LogUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -13,8 +14,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static edu.illinois.odex.agent.Config.ASM_Version;
-import static edu.illinois.odex.agent.utils.CommonUtils.STATE_RECORDER;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -35,7 +34,7 @@ public class StatePollutionCheckerCV extends ClassVisitor {
     private String afterEachAnnotation;
 
     public StatePollutionCheckerCV(ClassVisitor classVisitor, String className, ClassLoader loader, int classVersion, String afterEachAnnotation) {
-        super(ASM_Version, classVisitor);
+        super(Config.ASM_Version, classVisitor);
         this.slashClassName = className;
         this.loader = loader;
         this.classVersion = classVersion;
@@ -126,7 +125,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
     public StatePollutionCheckerMV(MethodVisitor methodVisitor, String className, String methodName,
                                    String desc, boolean isJUnit3TestClass, boolean isParameterizedTestClass,
                                    int classVersion, String afterEachAnnotation) {
-        super(ASM_Version, methodVisitor);
+        super(Config.ASM_Version, methodVisitor);
         this.slashClassName = className;
         this.methodName = methodName;
         this.methodDesc = desc;
@@ -215,9 +214,9 @@ class StatePollutionCheckerMV extends MethodVisitor {
                 super.visitLdcInsn(fieldDesc);
                 super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);  // Todo: check if this is necessary first and then access the field to be more efficient
                 if (fieldDesc.equals("C") || fieldDesc.equals("S") || fieldDesc.equals("I") || fieldDesc.equals("J") || fieldDesc.equals("F") || fieldDesc.equals("D") || fieldDesc.equals("Z") || fieldDesc.equals("B")){
-                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
+                    super.visitMethodInsn(INVOKESTATIC, CommonUtils.STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
                 } else {
-                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                    super.visitMethodInsn(INVOKESTATIC, CommonUtils.STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
                 }
             }
 

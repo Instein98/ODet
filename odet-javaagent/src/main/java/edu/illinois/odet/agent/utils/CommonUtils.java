@@ -1,4 +1,4 @@
-package edu.illinois.odex.agent.utils;
+package edu.illinois.odet.agent.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class CommonUtils {
 
-    public static final String STATE_RECORDER = "edu/illinois/odex/agent/app/StateRecorder";
+    public static final String STATE_RECORDER = "edu/illinois/odet/agent/app/StateRecorder";
 
     private static Map<String, Integer> fieldAccessFlagMap = new HashMap<>();
 

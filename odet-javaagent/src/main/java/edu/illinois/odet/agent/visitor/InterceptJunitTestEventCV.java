@@ -1,9 +1,9 @@
-package edu.illinois.odex.agent.visitor;
+package edu.illinois.odet.agent.visitor;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import static edu.illinois.odex.agent.Config.ASM_Version;
+import static edu.illinois.odet.agent.Config.ASM_Version;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -59,7 +59,7 @@ class InterceptJunitTestEventMV extends MethodVisitor {
             mv.visitMethodInsn(INVOKEVIRTUAL, "org/junit/runner/Description", "getMethodName", "()Ljava/lang/String;", false);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false);
-            mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odex/agent/app/StateRecorder", "junitTestStart", "(Ljava/lang/String;)V", false);
+            mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "junitTestStart", "(Ljava/lang/String;)V", false);
         } else if ("org/junit/runner/notification/RunNotifier".equals(currentSlashClassName)
                 && "fireTestFinished".equals(currentMethodName)
                 && "(Lorg/junit/runner/Description;)V".equals(currentMethodDesc)){
@@ -75,7 +75,7 @@ class InterceptJunitTestEventMV extends MethodVisitor {
             mv.visitMethodInsn(INVOKEVIRTUAL, "org/junit/runner/Description", "getMethodName", "()Ljava/lang/String;", false);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "append", "(Ljava/lang/String;)Ljava/lang/StringBuilder;", false);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/StringBuilder", "toString", "()Ljava/lang/String;", false);
-            mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odex/agent/app/StateRecorder", "junitTestFinish", "(Ljava/lang/String;)V", false);
+            mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "junitTestFinish", "(Ljava/lang/String;)V", false);
         }
     }
 

@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>odex</artifactId>
+        <artifactId>odet</artifactId>
         <groupId>edu.illinois</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>odex-javaagent</artifactId>
+    <artifactId>odet-javaagent</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -24,8 +24,8 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Premain-Class>edu.illinois.odex.agent.Premain</Premain-Class>
-<!--                            <Agent-Class>edu.illinois.odex.agent.Premain</Agent-Class>-->
+                            <Premain-Class>edu.illinois.odet.agent.Premain</Premain-Class>
+<!--                            <Agent-Class>edu.illinois.odet.agent.Premain</Agent-Class>-->
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
@@ -49,12 +49,23 @@
                                     <include>org.ow2.asm:*</include>
                                     <include>com.google.guava:*</include>
                                     <include>org.javassist:*</include>
+                                    <include>com.thoughtworks.xstream:*</include>
+                                    <include>io.github.x-stream:*</include>
+                                    <include>xmlpull:*</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>org.objectweb.asm</pattern>
-                                    <shadedPattern>edu.illinois.odex.agent.objectweb.asm</shadedPattern>
+                                    <shadedPattern>edu.illinois.odet.agent.objectweb.asm</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.thoughtworks</pattern>
+                                    <shadedPattern>edu.illinois.odet.agent.com.thoughtworks</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.xmlpull</pattern>
+                                    <shadedPattern>edu.illinois.odet.agent.org.xmlpull</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -97,6 +108,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>30.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.19</version>
         </dependency>
     </dependencies>
 

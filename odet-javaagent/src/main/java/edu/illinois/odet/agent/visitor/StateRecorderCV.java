@@ -1,10 +1,9 @@
-package edu.illinois.odex.agent.visitor;
+package edu.illinois.odet.agent.visitor;
 
+import edu.illinois.odet.agent.Config;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import static edu.illinois.odex.agent.Config.ASM_Version;
-import static edu.illinois.odex.agent.utils.CommonUtils.STATE_RECORDER;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -17,7 +16,7 @@ public class StateRecorderCV extends ClassVisitor {
     private String currentSlashClassName;
 
     public StateRecorderCV(ClassVisitor cv, String className) {
-        super(ASM_Version, cv);
+        super(Config.ASM_Version, cv);
         currentSlashClassName = className;
     }
 
@@ -39,7 +38,7 @@ class StateAccessRecorderMV extends MethodVisitor {
     private String currentMethodDesc;
 
     public StateAccessRecorderMV(MethodVisitor methodVisitor) {
-        super(ASM_Version, methodVisitor);
+        super(Config.ASM_Version, methodVisitor);
     }
 
     @Override
@@ -52,10 +51,10 @@ class StateAccessRecorderMV extends MethodVisitor {
             mv.visitLdcInsn(descriptor);
             mv.visitFieldInsn(GETSTATIC, owner, name, descriptor);
             if (descriptor.equals("C") || descriptor.equals("S") || descriptor.equals("I") || descriptor.equals("J") || descriptor.equals("F") || descriptor.equals("D") || descriptor.equals("Z") || descriptor.equals("B")){
-                mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odex/agent/app/StateRecorder", "stateAccess",
+                mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "stateAccess",
                         "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;" + descriptor + ")V", false);
             } else {
-                mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odex/agent/app/StateRecorder", "stateAccess",
+                mv.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "stateAccess",
                         "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
             }
 
