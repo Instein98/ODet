@@ -4,7 +4,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import edu.illinois.odet.agent.utils.LogUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static edu.illinois.odet.agent.utils.CommonUtils.getDotClassNameFromTestIdentifier;
@@ -26,6 +28,8 @@ public class StateRecorder {
 
     //                       accessedFields  fieldValue
     private static Map<String, Map<String, Object>> testAccessedFieldsMap = new HashMap<>();
+
+    private static Map<String, Map<String, Object>> testPollutedFieldsMap = new HashMap<>();
 
     static {
         xs.addPermission(AnyTypePermission.ANY);
@@ -93,6 +97,10 @@ public class StateRecorder {
             }
             Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(currentTestIdentifier);
 
+//            if (value.getClass().getName().contains("Person")){
+//                System.out.println("Access: " + value.toString());
+//            }
+
             // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
             value = xs.fromXML(xs.toXML(value));
 
@@ -143,9 +151,19 @@ public class StateRecorder {
         Object originalValue = testAccessedFieldsMap.get(currentTestIdentifier).get(fieldIdentifier);
 
         if ((originalValue == null && value != null) || (originalValue != null && !originalValue.equals(value))){
-            LogUtils.agentInfo(String.format("[IMPORTANT] Value of %s changed after test %s execution!", fieldIdentifier, currentTestIdentifier));
-            System.out.println(String.format("[IMPORTANT] Value of %s changed after test %s execution!", fieldIdentifier, currentTestIdentifier));
+            LogUtils.agentInfo(String.format("[Odet] Value of %s changed after test %s execution!",
+                    fieldIdentifier.substring(0, fieldIdentifier.lastIndexOf("#")), currentTestIdentifier));
+            System.out.println(String.format("[Odet] Value of %s changed after test %s execution!",
+                    fieldIdentifier.substring(0, fieldIdentifier.lastIndexOf("#")), currentTestIdentifier));
+            if (!testPollutedFieldsMap.containsKey(currentTestIdentifier)){
+                testPollutedFieldsMap.put(currentTestIdentifier, new HashMap<>());
+            }
+            testPollutedFieldsMap.get(currentTestIdentifier).put(fieldIdentifier, value);
         } else {
+//            if (value.getClass().getName().contains("Person")){
+//                System.out.println("Before: " + originalValue.toString());
+//                System.out.println("After: " + value.toString());
+//            }
 //            System.out.println(String.format("[IMPORTANT] Value of %s does not change after test %s execution!", fieldIdentifier, currentTestIdentifier));
         }
     }
@@ -169,6 +187,95 @@ public class StateRecorder {
             for (String fid: recordedMap.keySet()){
                 System.out.println(String.format("    %s: %s", fid, recordedMap.get(fid).toString()));
             }
+        }
+    }
+
+    private static void printMap(Map<String, Map<String, Object>> map){
+        for (String key: map.keySet()){
+            System.out.println("Test: " + key);
+            Map<String, Object> recordedMap = map.get(key);
+            for (String fid: recordedMap.keySet()){
+                System.out.println(String.format("    %s: %s", fid, recordedMap.get(fid).toString()));
+            }
+        }
+    }
+
+    public static boolean isTestPollutingField(String testId, String simplifiedFieldId){
+        if (testPollutedFieldsMap.containsKey(testId)){
+            Map<String, Object> fieldMap = testPollutedFieldsMap.get(testId);
+            boolean matched = false;
+            for (String key: fieldMap.keySet()){
+                String[] tmp = key.split("[#]");
+                String owner = tmp[0];
+                String fieldName = tmp[1];
+                String desc = tmp[2];
+                String sid1 = owner + '#' + fieldName;
+                String sid2 = owner.replace("/", ".") + '#' + fieldName;
+//                System.out.println("simplifiedFieldId: " + simplifiedFieldId);
+//                System.out.println("sid1: " + sid1);
+//                System.out.println("sid2: " + sid2);
+                if (sid1.equals(simplifiedFieldId) || sid2.equals(simplifiedFieldId)){
+                    matched = true;
+                    break;
+                }
+            }
+            return matched;
+        }
+        return false;
+    }
+
+    private static Map<String, List> assertPollutionMap = new HashMap<>();
+    private static Map<String, List> assertNoPollutionMap = new HashMap<>();
+
+    public static void recordAssertPollutionInvocation(String testId, String fieldId){
+        if (!assertPollutionMap.containsKey(testId)){
+            assertPollutionMap.put(testId, new ArrayList());
+        }
+        assertPollutionMap.get(testId).add(fieldId);
+    }
+    public static void recordAssertNoPollutionInvocation(String testId, String fieldId){
+        if (!assertNoPollutionMap.containsKey(testId)){
+            assertNoPollutionMap.put(testId, new ArrayList());
+        }
+//        System.out.println(String.format("assertNoPollutionMap.put(%s, %s)", testId, fieldId));
+        assertNoPollutionMap.get(testId).add(fieldId);
+//        System.out.println("assertNoPollutionMap.size(): " + assertNoPollutionMap.size());
+    }
+
+    public static void assertPollution(){
+        for (Map.Entry<String, List> entry: assertPollutionMap.entrySet()){
+            List<String> fieldList = entry.getValue();
+            for (String fid: fieldList) {
+                assertTestPollutesField(entry.getKey(), fid);
+            }
+        }
+        assertPollutionMap.clear();
+    }
+
+    public static void assertNoPollution(){
+        for (Map.Entry<String, List> entry: assertNoPollutionMap.entrySet()){
+            List<String> fieldList = entry.getValue();
+            for (String fid: fieldList) {
+                assertTestNotPollutesField(entry.getKey(), fid);
+            }
+        }
+        assertNoPollutionMap.clear();
+    }
+
+    private static void assertTestPollutesField(String testId, String simplifiedFieldId){
+//        printMap(testPollutedFieldsMap);
+        if (!StateRecorder.isTestPollutingField(testId, simplifiedFieldId)){
+            throw new RuntimeException(String.format("%s is not polluted by %s!", simplifiedFieldId, testId));
+        } else {
+            System.out.printf("[PASS] %s is polluted by %s%n", simplifiedFieldId, testId);
+        }
+    }
+
+    private static void assertTestNotPollutesField(String testId, String simplifiedFieldId){
+        if (StateRecorder.isTestPollutingField(testId, simplifiedFieldId)){
+            throw new RuntimeException(String.format("%s is polluted by %s!", simplifiedFieldId, testId));
+        } else {
+            System.out.printf("[PASS] %s is not polluted by %s%n", simplifiedFieldId, testId);
         }
     }
 }

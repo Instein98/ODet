@@ -25,7 +25,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
     private String transformerName = "InstrumentTransformer";
 
     Set<String> PREFIX_BLACK_LIST = Sets.newHashSet(
-            "edu/illinois/odet",
+            "edu/illinois/odet/agent",
             "java",
             "sun",
             "com/sun",

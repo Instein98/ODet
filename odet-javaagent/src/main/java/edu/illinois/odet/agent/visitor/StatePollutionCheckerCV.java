@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static edu.illinois.odet.agent.utils.CommonUtils.STATE_RECORDER;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -179,6 +180,20 @@ class StatePollutionCheckerMV extends MethodVisitor {
     }
 
     @Override
+    public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+        // handle edu.illinois.odet.test.TestUtils#assertTestPollutesField
+        if (opcode==INVOKESTATIC && owner.equals("edu/illinois/odet/test/TestUtils")
+                && name.equals("assertTestPollutesField") && descriptor.equals("(Ljava/lang/String;Ljava/lang/String;)V")) {
+            super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "recordAssertPollutionInvocation", descriptor, false);
+        } else if (opcode==INVOKESTATIC && owner.equals("edu/illinois/odet/test/TestUtils")
+                && name.equals("assertTestNotPollutesField") && descriptor.equals("(Ljava/lang/String;Ljava/lang/String;)V")){
+            super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "recordAssertNoPollutionInvocation", descriptor, false);
+        } else {
+            super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+        }
+    }
+
+    @Override
     public void visitMaxs(int maxStack, int maxLocals) {
         if (isTestMethod){
             tryEndCatchStart = new Label();
@@ -214,12 +229,13 @@ class StatePollutionCheckerMV extends MethodVisitor {
                 super.visitLdcInsn(fieldDesc);
                 super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);  // Todo: check if this is necessary first and then access the field to be more efficient
                 if (fieldDesc.equals("C") || fieldDesc.equals("S") || fieldDesc.equals("I") || fieldDesc.equals("J") || fieldDesc.equals("F") || fieldDesc.equals("D") || fieldDesc.equals("Z") || fieldDesc.equals("B")){
-                    super.visitMethodInsn(INVOKESTATIC, CommonUtils.STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
                 } else {
-                    super.visitMethodInsn(INVOKESTATIC, CommonUtils.STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
                 }
             }
-
         }
+        super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "assertPollution", "()V", false);
+        super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "assertNoPollution", "()V", false);
     }
 }

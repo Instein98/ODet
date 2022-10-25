@@ -1,0 +1,16 @@
+1. Say there is a setup method, which sets the shared state from A to B. The test method sets it from B to A. Should this method be a potential polluter?
+    People usually write initialization code in setup methods, i.e., setting the states to a initial state. If the test method change the initial state, it can be harmful. However, if such setup methods exists, it can ensure the pollution brought by that harmful test method to be cleared before other tests' execution. Therefore, what is more important is the states that are not set in the setup methods and changed in test method execution. However, if people do not explicitly write setup methods, i.e., they write such initialization logic in their test method, of course the test method can get rid of the pollution state of such polluted states, but it is reasonable to have the concern that such initialization may pollute the state used by other tests. In conclusion, it is better to consider the setup method as a part of the test method, to have higher recall (may increase false positives?). For the situation in the question, the answer should be no.
+
+2. It can also depend on the enviornment to say whether a test is a potential polluter. It depends on what the state before executing that test is. For some initial states, the test methods can be a polluter. But for others, it may not be a potential polluter.
+
+
+3. The following test can fail because when recording the value of someone, its value is already changed... Need more complicated logic to capture this.
+    @Test
+    public void valueChangeTest(){
+        System.out.println("***** Running valueChangeTest *****");
+        String tid = "edu.illinois.odet.test.PollutionTest#valueChangeTest";
+        defaultName.setFirstName("Tom");
+        someone.setName(defaultName);
+        assertTestPollutesField(tid, fid_defaultName);
+        assertTestPollutesField(tid, fid_someone);
+    }
