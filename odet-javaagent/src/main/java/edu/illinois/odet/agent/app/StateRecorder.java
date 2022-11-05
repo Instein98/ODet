@@ -2,7 +2,10 @@ package edu.illinois.odet.agent.app;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import edu.illinois.odet.agent.utils.FileUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +29,63 @@ public class StateRecorder {
 
     private static String currentTestIdentifier = null;
 
+    // testAccessedFieldsMap only stores tests having pollution
     //                       accessedFields  fieldValue
     private static Map<String, Map<String, Object>> testAccessedFieldsMap = new HashMap<>();
 
     private static Map<String, Map<String, Object>> testPollutedFieldsMap = new HashMap<>();
 
+    private static String WOKR_DIR_PATH = System.getProperty("user.home") + "/.odet/";
+    private static String OUTPUT_POLLUTION_INFO_PATH = WOKR_DIR_PATH + "/pollutionInfo.json";
+    private static String OUTPUT_ACCESS_INFO_PATH = WOKR_DIR_PATH + "/accessInfo.json";
+
+    private static String WOKR_DIR_SERIALIZATION_PATH = System.getProperty("user.home") + "/.odet/objects/";
+
+    private static int objId = 1;
+
+    private static void dumpInfo(){
+        // dump pollution information and serialize
+        JSONObject pollutionJsonObj = new JSONObject();
+        for (String testId: testPollutedFieldsMap.keySet()){
+            Map<String, Object> pollutedFieldMap = testPollutedFieldsMap.get(testId);
+            JSONArray pollutedFieldsArr = new JSONArray();
+            for (String fieldId: pollutedFieldMap.keySet()){
+                Object value = pollutedFieldMap.get(fieldId);
+                String serializationPath = serializeObject(value);
+                JSONObject fieldJsonObj = new JSONObject();
+                fieldJsonObj.put(fieldId, serializationPath);
+                pollutedFieldsArr.add(fieldJsonObj);
+            }
+            pollutionJsonObj.put(testId, pollutedFieldsArr);
+        }
+        FileUtils.write(OUTPUT_POLLUTION_INFO_PATH, pollutionJsonObj.toJSONString());
+        // dump access information
+        JSONObject accessJsonObj = new JSONObject();
+        for (String testId: testAccessedFieldsMap.keySet()){
+            Map<String, Object> accessedFieldMap = testAccessedFieldsMap.get(testId);
+            JSONArray accessedArr = new JSONArray();
+            for (String fieldAccessed: accessedFieldMap.keySet()){
+                accessedArr.add(fieldAccessed);
+            }
+            accessJsonObj.put(testId, accessedArr);
+        }
+        FileUtils.write(OUTPUT_ACCESS_INFO_PATH, accessJsonObj.toJSONString());
+    }
+
+    private static String serializeObject(Object value){
+        String s = xs.toXML(value);
+        String serializationPath = String.format(WOKR_DIR_SERIALIZATION_PATH + "/%d.xml", objId);
+        FileUtils.write(serializationPath, s);
+        objId++;
+        return serializationPath;
+    }
+
     static {
         xs.addPermission(AnyTypePermission.ANY);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            printMap(testPollutedFieldsMap);
+            dumpInfo();
+        }));
     }
 
     // testIdentifier: fullyQualifiedClassName#testMethod
@@ -92,6 +145,7 @@ public class StateRecorder {
             }
             // if the field is already recorded as dependent, and its value is also recorded,
             // then return since we only want to record its value before the first access.
+            // Todo (optimization): use array to make it faster, because such case may be a lot
             else if (testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
                 return;
             }
@@ -140,6 +194,7 @@ public class StateRecorder {
             LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
             return;
         }
+        // fieldIdentifier example: org/example/Test#name#Lorg/example/Name;
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
         if (!testAccessedFieldsMap.containsKey(currentTestIdentifier) || !testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
 //            printTestAccessedFieldsMap();

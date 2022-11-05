@@ -13,6 +13,7 @@ import org.objectweb.asm.MethodVisitor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import static edu.illinois.odet.agent.utils.CommonUtils.STATE_RECORDER;
 import static org.objectweb.asm.Opcodes.*;

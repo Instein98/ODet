@@ -71,14 +71,14 @@ public class InstrumentTransformer implements ClassFileTransformer {
 
                 cv = new StatePollutionCheckerCV(cv, className, loader, getClassVersion(cr), afterEachAnnotation);
                 cv = new StateRecorderCV(cv, className);
-                cv = new FieldCV(cv, className);  // should be the last one
+//                cv = new FieldCV(cv, className);  // should be the last one
                 cn.accept(cv);
             }
 
             result = cw.toByteArray();
 
-            FileUtils.write(Config.workingDirectory() + "/" + transformerName + "/"
-                    + className.replace('/', '.') + ".class", result);
+//            FileUtils.write(Config.workingDirectory() + "/" + transformerName + "/"
+//                    + className.replace('/', '.') + ".class", result);
 
         } catch (Throwable t){
             LogUtils.agentErr(t);

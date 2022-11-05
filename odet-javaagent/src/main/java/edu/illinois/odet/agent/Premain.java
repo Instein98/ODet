@@ -35,11 +35,17 @@ public class Premain {
         try{
             Enumeration<URL> roots = Premain.class.getClassLoader().getResources("");
             while(roots.hasMoreElements()){
-                String path = roots.nextElement().getPath();
-                try (Stream<Path> stream = Files.walk(Paths.get(path))) {
-                    stream.filter(Files::isRegularFile).forEach(Premain::recordFields);
+                URL url = roots.nextElement();
+                String path = url.getPath();
+                System.out.println(path);
+                try{
+                    try (Stream<Path> stream = Files.walk(Paths.get(path))) {
+                        stream.filter(Files::isRegularFile).forEach(Premain::recordFields);
+                    }
+                } catch (Throwable x){
+//                    x.printStackTrace();
+                    continue;
                 }
-
             }
         } catch (Throwable t){
             t.printStackTrace();

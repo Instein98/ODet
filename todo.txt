@@ -14,3 +14,5 @@
         assertTestPollutesField(tid, fid_defaultName);
         assertTestPollutesField(tid, fid_someone);
     }
+
+4. If private states of some classes are changed, how to record that?
