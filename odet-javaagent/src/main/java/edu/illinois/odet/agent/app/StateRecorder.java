@@ -35,11 +35,12 @@ public class StateRecorder {
 
     private static Map<String, Map<String, Object>> testPollutedFieldsMap = new HashMap<>();
 
-    private static String WOKR_DIR_PATH = System.getProperty("user.home") + "/.odet/";
+//    private static String WOKR_DIR_PATH = System.getProperty("user.home") + "/.odet/";
+    private static String WOKR_DIR_PATH = System.getProperty("user.dir") + "/odet/";
     private static String OUTPUT_POLLUTION_INFO_PATH = WOKR_DIR_PATH + "/pollutionInfo.json";
     private static String OUTPUT_ACCESS_INFO_PATH = WOKR_DIR_PATH + "/accessInfo.json";
 
-    private static String WOKR_DIR_SERIALIZATION_PATH = System.getProperty("user.home") + "/.odet/objects/";
+    private static String WOKR_DIR_SERIALIZATION_PATH = WOKR_DIR_PATH + "/objects/";
 
     private static int objId = 1;
 
@@ -48,16 +49,15 @@ public class StateRecorder {
         JSONObject pollutionJsonObj = new JSONObject();
         for (String testId: testPollutedFieldsMap.keySet()){
             Map<String, Object> pollutedFieldMap = testPollutedFieldsMap.get(testId);
-            JSONArray pollutedFieldsArr = new JSONArray();
+            JSONObject fieldSerializationJsonObj = new JSONObject();
             for (String fieldId: pollutedFieldMap.keySet()){
                 Object value = pollutedFieldMap.get(fieldId);
                 String serializationPath = serializeObject(value);
-                JSONObject fieldJsonObj = new JSONObject();
-                fieldJsonObj.put(fieldId, serializationPath);
-                pollutedFieldsArr.add(fieldJsonObj);
+                fieldSerializationJsonObj.put(fieldId, serializationPath);
             }
-            pollutionJsonObj.put(testId, pollutedFieldsArr);
+            pollutionJsonObj.put(testId, fieldSerializationJsonObj);
         }
+        FileUtils.clear(OUTPUT_POLLUTION_INFO_PATH);
         FileUtils.write(OUTPUT_POLLUTION_INFO_PATH, pollutionJsonObj.toJSONString());
         // dump access information
         JSONObject accessJsonObj = new JSONObject();
@@ -69,12 +69,16 @@ public class StateRecorder {
             }
             accessJsonObj.put(testId, accessedArr);
         }
+        FileUtils.clear(OUTPUT_ACCESS_INFO_PATH);
         FileUtils.write(OUTPUT_ACCESS_INFO_PATH, accessJsonObj.toJSONString());
     }
 
     private static String serializeObject(Object value){
         String s = xs.toXML(value);
+        System.out.println("Before serializaiton: " + value.toString());
+        System.out.println("After serializaiton: " + s);
         String serializationPath = String.format(WOKR_DIR_SERIALIZATION_PATH + "/%d.xml", objId);
+        FileUtils.clear(serializationPath);
         FileUtils.write(serializationPath, s);
         objId++;
         return serializationPath;
@@ -213,6 +217,8 @@ public class StateRecorder {
             if (!testPollutedFieldsMap.containsKey(currentTestIdentifier)){
                 testPollutedFieldsMap.put(currentTestIdentifier, new HashMap<>());
             }
+            // otherwise the value may change after later test execution
+            value = xs.fromXML(xs.toXML(value));
             testPollutedFieldsMap.get(currentTestIdentifier).put(fieldIdentifier, value);
         } else {
 //            if (value.getClass().getName().contains("Person")){
