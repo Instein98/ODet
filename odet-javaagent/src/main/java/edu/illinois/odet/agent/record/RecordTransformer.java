@@ -1,13 +1,12 @@
-package edu.illinois.odet.agent;
+package edu.illinois.odet.agent.record;
 
 import com.google.common.collect.Sets;
-import edu.illinois.odet.agent.visitor.InterceptJunitTestEventCV;
+import edu.illinois.odet.agent.Premain;
+import edu.illinois.odet.agent.record.visitor.InterceptJunitTestEventCV;
+import edu.illinois.odet.agent.record.visitor.StatePollutionCheckerCV;
+import edu.illinois.odet.agent.record.visitor.StateRecorderCV;
 import edu.illinois.odet.agent.utils.CommonUtils;
-import edu.illinois.odet.agent.utils.FileUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
-import edu.illinois.odet.agent.visitor.FieldCV;
-import edu.illinois.odet.agent.visitor.StatePollutionCheckerCV;
-import edu.illinois.odet.agent.visitor.StateRecorderCV;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -20,9 +19,11 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import java.util.Set;
 
-public class InstrumentTransformer implements ClassFileTransformer {
+import static edu.illinois.odet.agent.utils.CommonUtils.getClassVersion;
 
-    private String transformerName = "InstrumentTransformer";
+public class RecordTransformer implements ClassFileTransformer {
+
+    private String transformerName = "RecordTransformer";
 
     Set<String> PREFIX_BLACK_LIST = Sets.newHashSet(
             "edu/illinois/odet/agent",
@@ -59,7 +60,7 @@ public class InstrumentTransformer implements ClassFileTransformer {
         try{
             ClassReader cr = new ClassReader(result);
             ClassWriter cw = new ClassWriter(cr, 0);
-            ClassVisitor cv = new FieldAccessClassVisitor(cw, className);
+            ClassVisitor cv = cw;
             if (CommonUtils.matchPrefix(className, junitInstPrefixes)){
                 cv = new InterceptJunitTestEventCV(cv, className);
                 cr.accept(cv, 0);
@@ -86,10 +87,6 @@ public class InstrumentTransformer implements ClassFileTransformer {
         }
 
         return result;
-    }
-
-    public static int getClassVersion(ClassReader cr) {
-        return cr.readUnsignedShort(6);
     }
 
     private String getClassAfterEachMethodAnnotation(ClassNode cn){

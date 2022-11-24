@@ -1,4 +1,4 @@
-package edu.illinois.odet.agent.visitor;
+package edu.illinois.odet.agent.record.visitor;
 
 import edu.illinois.odet.agent.Config;
 import org.objectweb.asm.ClassVisitor;

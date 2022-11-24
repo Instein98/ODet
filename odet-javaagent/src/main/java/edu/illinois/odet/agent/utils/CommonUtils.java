@@ -1,5 +1,7 @@
 package edu.illinois.odet.agent.utils;
 
+import org.objectweb.asm.ClassReader;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -55,5 +57,9 @@ public class CommonUtils {
             }
         }
         return false;
+    }
+
+    public static int getClassVersion(ClassReader cr) {
+        return cr.readUnsignedShort(6);
     }
 }

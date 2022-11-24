@@ -1,6 +1,7 @@
 package edu.illinois.odet.agent;
 
 import com.google.common.collect.Sets;
+import edu.illinois.odet.agent.record.RecordTransformer;
 import edu.illinois.odet.agent.utils.CommonUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
 import org.objectweb.asm.ClassReader;
@@ -29,6 +30,8 @@ public class Premain {
             "org/junit/runner/notification/RunNotifier"
     );
 
+    private static String mode = "record";
+
     public static void premain(String options, Instrumentation ins) {
         LogUtils.agentInfo("******** Premain Start ********\n");
         parseArgs(options);
@@ -52,7 +55,11 @@ public class Premain {
         }
 //        printRecordedFieldsInfo();  // debug
 
-        ins.addTransformer(new InstrumentTransformer());
+        if ("record".equals(mode)){
+            ins.addTransformer(new RecordTransformer());
+        } else if ("detect".equals(mode)){
+
+        }
     }
 
     private static void recordFields(Path path){
@@ -99,6 +106,12 @@ public class Premain {
             if (key.equals("instPrefix")){
                 for (String prefix: value.split(",")){
                     prefixWhiteList.add(prefix);
+                }
+            } else if (key.equals("mode")){
+                if ("detect".equals(value)){
+                    mode = "detect";
+                } else {
+                    mode = "record";
                 }
             }
         }
