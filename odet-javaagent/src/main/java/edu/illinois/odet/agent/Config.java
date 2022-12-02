@@ -11,6 +11,8 @@ public class Config {
     private static String agentName = "odetAgent";
     public static int ASM_Version = ASM9;
 
+    public static String ODET_TMP_DIR = System.getProperty("user.dir") + "/odet/";
+
 //    static {
 //        System.err.println(Paths.get(workingDirectory()).toAbsolutePath());
 //    }

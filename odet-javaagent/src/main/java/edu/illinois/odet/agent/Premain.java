@@ -1,6 +1,7 @@
 package edu.illinois.odet.agent;
 
 import com.google.common.collect.Sets;
+import edu.illinois.odet.agent.detect.DetectTransformer;
 import edu.illinois.odet.agent.record.RecordTransformer;
 import edu.illinois.odet.agent.utils.CommonUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
@@ -31,34 +32,34 @@ public class Premain {
     );
 
     private static String mode = "record";
+    private static String detectConfigFilePath = null;
 
     public static void premain(String options, Instrumentation ins) {
         LogUtils.agentInfo("******** Premain Start ********\n");
         parseArgs(options);
-        try{
-            Enumeration<URL> roots = Premain.class.getClassLoader().getResources("");
-            while(roots.hasMoreElements()){
-                URL url = roots.nextElement();
-                String path = url.getPath();
-                System.out.println(path);
-                try{
-                    try (Stream<Path> stream = Files.walk(Paths.get(path))) {
-                        stream.filter(Files::isRegularFile).forEach(Premain::recordFields);
-                    }
-                } catch (Throwable x){
-//                    x.printStackTrace();
-                    continue;
-                }
-            }
-        } catch (Throwable t){
-            t.printStackTrace();
-        }
-//        printRecordedFieldsInfo();  // debug
-
         if ("record".equals(mode)){
+            try{
+                Enumeration<URL> roots = Premain.class.getClassLoader().getResources("");
+                while(roots.hasMoreElements()){
+                    URL url = roots.nextElement();
+                    String path = url.getPath();
+                    System.out.println(path);
+                    try{
+                        try (Stream<Path> stream = Files.walk(Paths.get(path))) {
+                            stream.filter(Files::isRegularFile).forEach(Premain::recordFields);
+                        }
+                    } catch (Throwable x){
+//                        x.printStackTrace();
+                        continue;
+                    }
+                }
+            } catch (Throwable t){
+                t.printStackTrace();
+            }
+//            printRecordedFieldsInfo();  // debug
             ins.addTransformer(new RecordTransformer());
         } else if ("detect".equals(mode)){
-
+            ins.addTransformer(new DetectTransformer(detectConfigFilePath));
         }
     }
 
@@ -113,6 +114,8 @@ public class Premain {
                 } else {
                     mode = "record";
                 }
+            } else if (key.equals("detectConfig")){
+                detectConfigFilePath = value;
             }
         }
     }

@@ -7,11 +7,15 @@ import edu.illinois.odet.agent.utils.LogUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static edu.illinois.odet.agent.Config.ODET_TMP_DIR;
 import static edu.illinois.odet.agent.utils.CommonUtils.getDotClassNameFromTestIdentifier;
 import static edu.illinois.odet.agent.utils.CommonUtils.getFieldAccessFlag;
 import static edu.illinois.odet.agent.utils.CommonUtils.getFieldIdentifier;
@@ -35,12 +39,9 @@ public class StateRecorder {
 
     private static Map<String, Map<String, Object>> testPollutedFieldsMap = new HashMap<>();
 
-//    private static String WOKR_DIR_PATH = System.getProperty("user.home") + "/.odet/";
-    private static String WOKR_DIR_PATH = System.getProperty("user.dir") + "/odet/";
-    private static String OUTPUT_POLLUTION_INFO_PATH = WOKR_DIR_PATH + "/pollutionInfo.json";
-    private static String OUTPUT_ACCESS_INFO_PATH = WOKR_DIR_PATH + "/accessInfo.json";
-
-    private static String WOKR_DIR_SERIALIZATION_PATH = WOKR_DIR_PATH + "/objects/";
+    private static String OUTPUT_POLLUTION_INFO_PATH = ODET_TMP_DIR + "/pollutionInfo.json";
+    private static String OUTPUT_ACCESS_INFO_PATH = ODET_TMP_DIR + "/accessInfo.json";
+    private static String WOKR_DIR_SERIALIZATION_PATH = ODET_TMP_DIR + "/objects/";
 
     private static int objId = 1;
 
@@ -338,5 +339,10 @@ public class StateRecorder {
         } else {
             System.out.printf("[PASS] %s is not polluted by %s%n", simplifiedFieldId, testId);
         }
+    }
+
+    public static Object deserialize(String path) throws IOException {
+        File file = new File(path);
+        return xs.fromXML(file);
     }
 }

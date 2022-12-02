@@ -10,6 +10,11 @@ import org.objectweb.asm.MethodVisitor;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+
+import static org.objectweb.asm.Opcodes.CHECKCAST;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.PUTSTATIC;
 
 /**
  * @author Yicheng Ouyang
@@ -28,12 +33,16 @@ public class StateResetCV extends ClassVisitor {
     // or null if the class has no methods with annotation @Before or @BeforeEach
     private String beforeEachAnnotation;
 
-    public StateResetCV(ClassVisitor classVisitor, String className, ClassLoader loader, int classVersion, String beforeEachAnnotation) {
+    private HashMap<String, String> stateToResetMap;
+
+    public StateResetCV(ClassVisitor classVisitor, String className, ClassLoader loader, int classVersion,
+                        String beforeEachAnnotation, HashMap<String, String> stateToResetMap) {
         super(Config.ASM_Version, classVisitor);
         this.slashClassName = className;
         this.loader = loader;
         this.classVersion = classVersion;
         this.beforeEachAnnotation = beforeEachAnnotation;
+        this.stateToResetMap = stateToResetMap;
     }
 
     @Override
@@ -68,7 +77,8 @@ public class StateResetCV extends ClassVisitor {
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
-        return new StateResetMV(mv, slashClassName, name, descriptor, isJUnit3TestClass, isParameterizedTestClass, this.classVersion, beforeEachAnnotation);
+        return new StateResetMV(mv, slashClassName, name, descriptor, isJUnit3TestClass, isParameterizedTestClass,
+                this.classVersion, beforeEachAnnotation, stateToResetMap);
     }
 
     private byte[] loadByteCode(InputStream inStream) throws IOException {
@@ -102,9 +112,11 @@ class StateResetMV extends MethodVisitor {
     private String beforeEachAnnotation;
     private boolean isBeforeEachMethod = false;
 
+    private HashMap<String, String> stateToResetMap;
+
     public StateResetMV(MethodVisitor methodVisitor, String className, String methodName,
                         String desc, boolean isJUnit3TestClass, boolean isParameterizedTestClass,
-                        int classVersion, String beforeEachAnnotation) {
+                        int classVersion, String beforeEachAnnotation, HashMap<String, String> stateToResetMap) {
         super(Config.ASM_Version, methodVisitor);
         this.slashClassName = className;
         this.methodName = methodName;
@@ -114,6 +126,7 @@ class StateResetMV extends MethodVisitor {
         this.hasNoParameters = desc.contains("()");
         this.classVersion = classVersion;
         this.beforeEachAnnotation = beforeEachAnnotation;
+        this.stateToResetMap = stateToResetMap;
     }
 
     @Override
@@ -135,5 +148,21 @@ class StateResetMV extends MethodVisitor {
                 || hasTestAnnotation
                 || hasPrameterizedTestAnnotation);
 //        log(String.format("%s is test method? %s", slashClassName+"#"+methodName, isTestMethod?"yes":"no"), null);
+        if ((beforeEachAnnotation == null && isTestMethod) || (beforeEachAnnotation != null && isBeforeEachMethod)){
+            // reset the states
+            for (String fieldId: stateToResetMap.keySet()){
+                String[] tmp = fieldId.split("#");
+                String fieldOwner = tmp[0];
+                String fieldName = tmp[1];
+                String fieldDesc = tmp[2];
+                String serializationPath = stateToResetMap.get(fieldId);
+
+                super.visitLdcInsn(serializationPath);
+                super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "deserialize",
+                        "(Ljava/lang/String;)Ljava/lang/Object;", false);
+                super.visitTypeInsn(CHECKCAST, fieldDesc.substring(1, fieldDesc.length()-1));
+                super.visitFieldInsn(PUTSTATIC, fieldOwner, fieldName, fieldDesc);
+            }
+        }
     }
 }

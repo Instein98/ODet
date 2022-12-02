@@ -3,9 +3,10 @@ package edu.illinois.odet.agent.detect;
 import com.google.common.collect.Sets;
 import edu.illinois.odet.agent.Premain;
 import edu.illinois.odet.agent.detect.visitor.StateResetCV;
-import edu.illinois.odet.agent.record.visitor.StatePollutionCheckerCV;
 import edu.illinois.odet.agent.utils.CommonUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -13,11 +14,14 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import java.io.FileReader;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
+import java.util.HashMap;
 import java.util.Set;
 
+import static edu.illinois.odet.agent.Config.ODET_TMP_DIR;
 import static edu.illinois.odet.agent.utils.CommonUtils.getClassVersion;
 
 /**
@@ -34,6 +38,26 @@ public class DetectTransformer implements ClassFileTransformer {
             "java", "sun", "com/sun", "javax", "jdk");
 
     private Set<String> PREFIX_WHITE_LIST = Premain.prefixWhiteList;
+
+    private HashMap<String, String> stateToResetMap = new HashMap<>();
+
+    public DetectTransformer(String configFilePath){
+        if (!configFilePath.contains("/")){
+            configFilePath = ODET_TMP_DIR + '/' + configFilePath;
+        }
+        try(FileReader fr = new FileReader(configFilePath)){
+            JSONParser jsonParser = new JSONParser();
+            JSONObject obj = (JSONObject) jsonParser.parse(fr);
+            JSONObject statesObj = (JSONObject) obj.get("states");
+            for (Object fieldId: statesObj.keySet()){
+                stateToResetMap.put((String) fieldId, (String) statesObj.get(fieldId));
+                System.out.println((String) fieldId);
+                System.out.println((String) statesObj.get(fieldId));
+            }
+        } catch (Throwable t){
+            t.printStackTrace();
+        }
+    }
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
@@ -60,7 +84,7 @@ public class DetectTransformer implements ClassFileTransformer {
             cr.accept(cn, 0);
 
             String beforeEachAnnotation = getClassAfterEachMethodAnnotation(cn);
-            ClassVisitor cv = new StateResetCV(cw, className, loader, getClassVersion(cr), beforeEachAnnotation);
+            ClassVisitor cv = new StateResetCV(cw, className, loader, getClassVersion(cr), beforeEachAnnotation, stateToResetMap);
             cn.accept(cv);
 
             result = cw.toByteArray();
