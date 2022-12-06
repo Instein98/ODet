@@ -158,7 +158,7 @@ class StateResetMV extends MethodVisitor {
                 String serializationPath = stateToResetMap.get(fieldId);
 
                 super.visitLdcInsn(serializationPath);
-                super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateRecorder", "deserialize",
+                super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateResetter", "deserialize",
                         "(Ljava/lang/String;)Ljava/lang/Object;", false);
                 super.visitTypeInsn(CHECKCAST, fieldDesc.substring(1, fieldDesc.length()-1));
                 super.visitFieldInsn(PUTSTATIC, fieldOwner, fieldName, fieldDesc);

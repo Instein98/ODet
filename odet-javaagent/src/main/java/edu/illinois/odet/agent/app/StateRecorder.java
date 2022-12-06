@@ -340,9 +340,4 @@ public class StateRecorder {
             System.out.printf("[PASS] %s is not polluted by %s%n", simplifiedFieldId, testId);
         }
     }
-
-    public static Object deserialize(String path) throws IOException {
-        File file = new File(path);
-        return xs.fromXML(file);
-    }
 }

@@ -51,8 +51,8 @@ public class DetectTransformer implements ClassFileTransformer {
             JSONObject statesObj = (JSONObject) obj.get("states");
             for (Object fieldId: statesObj.keySet()){
                 stateToResetMap.put((String) fieldId, (String) statesObj.get(fieldId));
-                System.out.println((String) fieldId);
-                System.out.println((String) statesObj.get(fieldId));
+//                System.out.println((String) fieldId);
+//                System.out.println((String) statesObj.get(fieldId));
             }
         } catch (Throwable t){
             t.printStackTrace();
