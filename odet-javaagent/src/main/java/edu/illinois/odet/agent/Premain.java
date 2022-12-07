@@ -43,7 +43,7 @@ public class Premain {
                 while(roots.hasMoreElements()){
                     URL url = roots.nextElement();
                     String path = url.getPath();
-                    System.out.println(path);
+//                    System.out.println(path);
                     try{
                         try (Stream<Path> stream = Files.walk(Paths.get(path))) {
                             stream.filter(Files::isRegularFile).forEach(Premain::recordFields);

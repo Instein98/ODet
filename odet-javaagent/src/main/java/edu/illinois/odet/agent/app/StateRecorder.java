@@ -31,7 +31,8 @@ public class StateRecorder {
 
     public static XStream xs = new XStream();
 
-    private static String currentTestIdentifier = null;
+    // use a stack data structure to represent the currentTestIdentifier to handle nested tests
+    private static List<String> currentTestIdStack = new ArrayList<>();
 
     // testAccessedFieldsMap only stores tests having pollution
     //                       accessedFields  fieldValue
@@ -76,8 +77,8 @@ public class StateRecorder {
 
     private static String serializeObject(Object value){
         String s = xs.toXML(value);
-        System.out.println("Before serializaiton: " + value.toString());
-        System.out.println("After serializaiton: " + s);
+//        System.out.println("Before serializaiton: " + value.toString());
+//        System.out.println("After serializaiton: " + s);
         String serializationPath = String.format(WOKR_DIR_SERIALIZATION_PATH + "/%d.xml", objId);
         FileUtils.clear(serializationPath);
         FileUtils.write(serializationPath, s);
@@ -88,7 +89,7 @@ public class StateRecorder {
     static {
         xs.addPermission(AnyTypePermission.ANY);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            printMap(testPollutedFieldsMap);
+//            printMap(testPollutedFieldsMap);
             dumpInfo();
         }));
     }
@@ -96,23 +97,33 @@ public class StateRecorder {
     // testIdentifier: fullyQualifiedClassName#testMethod
     public static void junitTestStart(String testIdentifier){
 //        System.out.println("junit test start: " + testIdentifier);
-        currentTestIdentifier = testIdentifier;
+        if (!currentTestIdStack.isEmpty()){
+            String msg = String.format("Nested tests detected: %s in %s",
+                    testIdentifier, currentTestIdStack.get(currentTestIdStack.size()-1));
+            LogUtils.agentWarn(msg);
+        }
+        currentTestIdStack.add(testIdentifier);
     }
 
     public static void junitTestFinish(String testIdentifier){
 //        System.out.println("junit test finish: " + testIdentifier);
-        currentTestIdentifier = null;
+        int lastIdx = currentTestIdStack.size() - 1;
+        if (!testIdentifier.equals(currentTestIdStack.get(lastIdx))){
+            String errMsg = String.format("Test finished (reported by JUnit) mismatched with currentTestIdStack. " +
+                    "Expected: %s; Actual: %s", testIdentifier, currentTestIdStack.get(lastIdx));
+            LogUtils.agentErr(errMsg);
+            // Todo: Try to find the matched one
+        } else {
+            currentTestIdStack.remove(lastIdx);
+        }
     }
 
-    // Only record public static fields and fields in the current test methods
+    // Record all static field access
     public static boolean needRecordField(String fieldIdentifier){
-        if (currentTestIdentifier == null)
+        if (currentTestIdStack.isEmpty())
             return false;
-        String[] tmp = fieldIdentifier.split("[#]");
-        String fieldOwner = slashToDotName(tmp[0]);
         int access = getFieldAccessFlag(fieldIdentifier);
-        return fieldOwner.equals(getDotClassNameFromTestIdentifier(currentTestIdentifier))
-                || ((access & ACC_PUBLIC) != 0 && (access & ACC_STATIC) != 0);
+        return (access & ACC_STATIC) != 0;
     }
 
     public static void stateAccess(int opcode, String owner, String name, String descriptor, byte value){
@@ -141,31 +152,27 @@ public class StateRecorder {
     }
 
     public static void stateAccess(int opcode, String owner, String name, String descriptor, Object value){
-        if (currentTestIdentifier == null)
+        if (currentTestIdStack.isEmpty())
             return;
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
         if (needRecordField(fieldIdentifier)){
-            if (!testAccessedFieldsMap.containsKey(currentTestIdentifier)) {
-                testAccessedFieldsMap.put(currentTestIdentifier, new HashMap<>());
+            for (String testIdentifier:currentTestIdStack){
+                if (!testAccessedFieldsMap.containsKey(testIdentifier)) {
+                    testAccessedFieldsMap.put(testIdentifier, new HashMap<>());
+                }
+                // if the field is already recorded as dependent, and its value is also recorded,
+                // then return since we only want to record its value before the first access.
+                // Todo (optimization): use array to make it faster, because such case may be a lot
+                else if (testAccessedFieldsMap.get(testIdentifier).containsKey(fieldIdentifier)){
+                    return;
+                }
+                Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(testIdentifier);
+
+                // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
+                value = xs.fromXML(xs.toXML(value));
+                fieldValueMap.put(fieldIdentifier, value);
+                LogUtils.agentInfo("Recorded Field Access: " + fieldIdentifier);
             }
-            // if the field is already recorded as dependent, and its value is also recorded,
-            // then return since we only want to record its value before the first access.
-            // Todo (optimization): use array to make it faster, because such case may be a lot
-            else if (testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
-                return;
-            }
-            Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(currentTestIdentifier);
-
-//            if (value.getClass().getName().contains("Person")){
-//                System.out.println("Access: " + value.toString());
-//            }
-
-            // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
-            value = xs.fromXML(xs.toXML(value));
-
-            fieldValueMap.put(fieldIdentifier, value);
-            LogUtils.agentInfo("[Odet] Recorded Field Access: " + fieldIdentifier);
-            System.out.println("[Odet] Recorded Field Access: " + fieldIdentifier);
         }
     }
 
@@ -195,51 +202,29 @@ public class StateRecorder {
     }
 
     public static void checkFieldState(String owner, String name, String descriptor, Object value){
-        if (currentTestIdentifier == null){
+        if (currentTestIdStack.isEmpty()){
             LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
             return;
         }
         // fieldIdentifier example: org/example/Test#name#Lorg/example/Name;
         String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
-        if (!testAccessedFieldsMap.containsKey(currentTestIdentifier) || !testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
-//            printTestAccessedFieldsMap();
-//            System.out.println("testAccessedFieldsMap.containsKey(currentTestIdentifier): " + testAccessedFieldsMap.containsKey(currentTestIdentifier));
-//            System.out.println("testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier): " + testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier));
-//            System.out.println("skip field checking: " + fieldIdentifier);
-            return;
-        }
-        Object originalValue = testAccessedFieldsMap.get(currentTestIdentifier).get(fieldIdentifier);
-
-        if ((originalValue == null && value != null) || (originalValue != null && !originalValue.equals(value))){
-            LogUtils.agentInfo(String.format("[Odet] Value of %s changed after test %s execution!",
-                    fieldIdentifier.substring(0, fieldIdentifier.lastIndexOf("#")), currentTestIdentifier));
-            System.out.println(String.format("[Odet] Value of %s changed after test %s execution!",
-                    fieldIdentifier.substring(0, fieldIdentifier.lastIndexOf("#")), currentTestIdentifier));
-            if (!testPollutedFieldsMap.containsKey(currentTestIdentifier)){
-                testPollutedFieldsMap.put(currentTestIdentifier, new HashMap<>());
+        for (String testIdentifier:currentTestIdStack){
+            if (!testAccessedFieldsMap.containsKey(testIdentifier) || !testAccessedFieldsMap.get(testIdentifier).containsKey(fieldIdentifier)){
+                return;
             }
-            // otherwise the value may change after later test execution
-            value = xs.fromXML(xs.toXML(value));
-            testPollutedFieldsMap.get(currentTestIdentifier).put(fieldIdentifier, value);
-        } else {
-//            if (value.getClass().getName().contains("Person")){
-//                System.out.println("Before: " + originalValue.toString());
-//                System.out.println("After: " + value.toString());
-//            }
-//            System.out.println(String.format("[IMPORTANT] Value of %s does not change after test %s execution!", fieldIdentifier, currentTestIdentifier));
-        }
-    }
+            Object originalValue = testAccessedFieldsMap.get(testIdentifier).get(fieldIdentifier);
 
-    public static boolean needCheckField(String owner, String name, String descriptor){
-        if (currentTestIdentifier == null){
-            LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
-            return false;
+            if ((originalValue == null && value != null) || (originalValue != null && !originalValue.equals(value))){
+                LogUtils.agentInfo(String.format("Value of %s changed after test %s execution!",
+                        fieldIdentifier.substring(0, fieldIdentifier.lastIndexOf("#")), testIdentifier));
+                if (!testPollutedFieldsMap.containsKey(testIdentifier)){
+                    testPollutedFieldsMap.put(testIdentifier, new HashMap<>());
+                }
+                // otherwise the value may change after later test execution
+                value = xs.fromXML(xs.toXML(value));
+                testPollutedFieldsMap.get(testIdentifier).put(fieldIdentifier, value);
+            }
         }
-        String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
-        if (testAccessedFieldsMap.get(currentTestIdentifier).containsKey(fieldIdentifier)){
-            return true;
-        }
-        return false;
     }
 
     private static void printTestAccessedFieldsMap(){

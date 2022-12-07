@@ -222,8 +222,9 @@ class StatePollutionCheckerMV extends MethodVisitor {
             String fieldDesc = tmp[2];
             int accessFlag = CommonUtils.getFieldAccessFlag(fieldId);
             // public static fields or private/protected fields in current class  Todo: support non-static fields
-            if ((accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0 || fieldOwner.equals(slashClassName))){
-                LogUtils.agentInfo(fieldDesc);
+            // Todo: use reflection to access non-public static fields
+            if ((accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0 || fieldOwner.equals(slashClassName) || fieldOwner.startsWith(slashClassName+'$'))){
+//                LogUtils.agentInfo(fieldDesc);
                 super.visitLdcInsn(fieldOwner);
                 super.visitLdcInsn(fieldName);
                 super.visitLdcInsn(fieldDesc);

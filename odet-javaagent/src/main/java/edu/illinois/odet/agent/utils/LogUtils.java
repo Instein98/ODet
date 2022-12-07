@@ -26,10 +26,20 @@ public class LogUtils {
     }
 
     public static void agentInfo(String message){
+        message = "[ODET][INFO] " + message;
+        System.out.println(message);
+        FileUtils.write(agentInfoPath, message + "\n");
+    }
+
+    public static void agentWarn(String message){
+        message = "[ODET][WARNING] " + message;
+        System.out.println(message);
         FileUtils.write(agentInfoPath, message + "\n");
     }
 
     public static void agentErr(String message){
+        message = "[ODET][ERROR] " + message;
+        System.out.println(message);
         FileUtils.write(agentErrPath, message + "\n");
     }
 

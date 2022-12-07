@@ -1,6 +1,7 @@
 import sys
 import time
 import json
+import argparse
 from pathlib import Path
 import subprocess as sp
 import xml.etree.ElementTree as et
@@ -14,7 +15,7 @@ javaagentPath = "/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-S
 executionConfigFileName = 'tmpConfig.json'
 resultFileName = 'result.json'
 
-def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFailedList):
+def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFailedList, mvnArgs: str):
     """
     Execute the detection phase and return polluter-victim pairs
     """
@@ -27,7 +28,9 @@ def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFail
     print('tests: ' + str(config['tests']))
     print()
 
-    sp.run('mvn test -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" -Dtest={} -Dmaven.test.failure.ignore=true'.format(javaagentPath, instPrefix, executionConfigFileName, ','.join(config['tests'])).split(), shell=False, universal_newlines=True, cwd=str(workDirPath))
+    sp.run('mvn test -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" {} -Dtest={} -Dmaven.test.failure.ignore=true -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip'.format(javaagentPath, instPrefix, executionConfigFileName, mvnArgs, ','.join(config['tests'])).split(), shell=False, universal_newlines=True, cwd=str(workDirPath))
+    print()
+    print()
 
     passedTestList, failedTestList = analyzeMvnTestResult(workDirPath)
 
@@ -81,7 +84,7 @@ def analyzeMvnTestResult(workingDir: Path):
                         failedList.append(testId)
     return successList, failedList
 
-def main(instPrefix: str):
+def main(instPrefix: str, mvnArgs:str):
     assert odetDirPath.exists()
     accJson = odetDirPath / 'accessInfo.json'
     polJson = odetDirPath / 'pollutionInfo.json'
@@ -93,6 +96,11 @@ def main(instPrefix: str):
     with polJson.open() as f:
         polInfo = json.load(f)
     
+    if len(accInfo) == 0:
+        print('[WARNING] accessInfo is empty')
+    if len(polInfo) == 0:
+        print('[WARNING] pollutionInfo is empty')
+
     # analyze the current test results
     origPassedTestList, origFailedTestList = analyzeMvnTestResult(workDirPath)
 
@@ -110,7 +118,9 @@ def main(instPrefix: str):
                 if pollutedField in accInfo[testId] and testId != polluterTest:
                     executionDict[polluterTest].add(testId)
     
-    pretty(executionDict)
+    print('Start execute:')
+    prettyPrint(executionDict)
+    print()
 
     # start execution to detect victims
 
@@ -141,7 +151,7 @@ def main(instPrefix: str):
         realVictims = []
         if len(cleanTestsToRun) > 0:
             print('Executing: {} - {}'.format(polluterTest, str(cleanTestsToRun)))
-            realVictims.extend(executeDetection(config, instPrefix, origPassedTestList, origFailedTestList))
+            realVictims.extend(executeDetection(config, instPrefix, origPassedTestList, origFailedTestList, mvnArgs))
             executionIteration += 1
             executedTestsNum += len(cleanTestsToRun)
 
@@ -149,7 +159,7 @@ def main(instPrefix: str):
         for test in polluterTestsToRun:
             config['tests'] = [test]
             print('Executing: {} - {}'.format(polluterTest, str(test)))
-            realVictims.extend(executeDetection(config, instPrefix, origPassedTestList, origFailedTestList))
+            realVictims.extend(executeDetection(config, instPrefix, origPassedTestList, origFailedTestList, mvnArgs))
             executionIteration += 1
             executedTestsNum += 1
 
@@ -167,26 +177,35 @@ def main(instPrefix: str):
     print('='*50)
     for polluter in resultDict:
         print('Polluter: {}'.format(polluter))
-        pretty(resultDict[polluter])
+        prettyPrint(resultDict[polluter])
     print('='*50)
     # dump result
     outputPath = odetDirPath / resultFileName
     with outputPath.open(mode='w') as f:
         json.dump(resultDict, f)
 
-def pretty(d, indent=2):
+def prettyPrint(d, indent=4):
    for key, value in d.items():
       print(' ' * indent + str(key))
       if isinstance(value, dict):
-         pretty(value, indent+1)
+         prettyPrint(value, indent+1)
       else:
          print(' ' * (indent+1) + str(value))
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print('Need 2 arguments as the path of working directory and instPrefix!')
-        exit(1)
-    workDirPath = Path(sys.argv[1])
-    instPrefix = Path(sys.argv[2])
+    parser = argparse.ArgumentParser(description='ODet detection phase.')
+    parser.add_argument('projPath', type=str)
+    parser.add_argument('instPrefix', type=str)
+    parser.add_argument('-m', '--module', type=str, help='The module to run `mvn test`')
+    parser.add_argument('-a', '--arguments', type=str, help='The extra arguments to run `mvn test`')
+    args = parser.parse_args()
+    module = ''
+    argument = ''
+    if args.module:
+        module = args.module
+    if args.arguments:
+        argument = args.arguments
+    workDirPath = Path(args.projPath) / module
+    instPrefix = Path(args.instPrefix)
     odetDirPath = workDirPath / 'odet/'
-    main(instPrefix)
+    main(instPrefix, argument)
