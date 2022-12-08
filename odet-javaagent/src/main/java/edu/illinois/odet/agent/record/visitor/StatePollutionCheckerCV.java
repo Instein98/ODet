@@ -9,6 +9,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Type;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class StatePollutionCheckerCV extends ClassVisitor {
     // Todo: support parameterized test classes
     private boolean isParameterizedTestClass;
     private int classVersion;
+    private String parentSlashName;
 
     // "Lorg/junit/After;" or "Lorg/junit/jupiter/api/AfterEach;"
     // or null if the class has no methods with annotation @After or @AfterEach
@@ -44,6 +46,7 @@ public class StatePollutionCheckerCV extends ClassVisitor {
 
     @Override
     public void visit(int version, int access, String name, String signature, String superSlashName, String[] interfaces) {
+        this.parentSlashName = superSlashName;
         String originalSuperName = superSlashName;
         // check if this class is a subclass of TestCase.class
         try{
@@ -85,7 +88,8 @@ public class StatePollutionCheckerCV extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 //        log("Visiting method " + slashClassName + "#" + name, null);
-        return new StatePollutionCheckerMV(mv, slashClassName, name, descriptor, isJUnit3TestClass, isParameterizedTestClass, this.classVersion, afterEachAnnotation);
+        return new StatePollutionCheckerMV(mv, slashClassName, name, descriptor, isJUnit3TestClass,
+                isParameterizedTestClass, this.classVersion, afterEachAnnotation, this.parentSlashName);
     }
 
     private byte[] loadByteCode(InputStream inStream) throws IOException {
@@ -113,6 +117,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
     private boolean hasNoParameters;
     private boolean isTestMethod;
     private int classVersion;
+    private String parentSlashName;
 
     // If @After/@AfterEach methods exist, need to check state at the end of these methods
     // Otherwise, check state before the test method return
@@ -125,7 +130,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
 
     public StatePollutionCheckerMV(MethodVisitor methodVisitor, String className, String methodName,
                                    String desc, boolean isJUnit3TestClass, boolean isParameterizedTestClass,
-                                   int classVersion, String afterEachAnnotation) {
+                                   int classVersion, String afterEachAnnotation, String parentSlashName) {
         super(Config.ASM_Version, methodVisitor);
         this.slashClassName = className;
         this.methodName = methodName;
@@ -135,6 +140,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
         this.hasNoParameters = desc.contains("()");
         this.classVersion = classVersion;
         this.afterEachAnnotation = afterEachAnnotation;
+        this.parentSlashName  = parentSlashName;
     }
 
     @Override
@@ -211,7 +217,7 @@ class StatePollutionCheckerMV extends MethodVisitor {
             // rethrow the caught exception
             mv.visitInsn(ATHROW);
         }
-        super.visitMaxs(maxStack+4, maxLocals);
+        super.visitMaxs(maxStack+6, maxLocals);
     }
 
     private void instCheckStatesCode(){
@@ -221,19 +227,71 @@ class StatePollutionCheckerMV extends MethodVisitor {
             String fieldName = tmp[1];
             String fieldDesc = tmp[2];
             int accessFlag = CommonUtils.getFieldAccessFlag(fieldId);
-            // public static fields or private/protected fields in current class  Todo: support non-static fields
-            // Todo: use reflection to access non-public static fields
-            if ((accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0 || fieldOwner.equals(slashClassName) || fieldOwner.startsWith(slashClassName+'$'))){
+
+            if (fieldOwner.equals(slashClassName)
+                    || (accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0
+                    || (accessFlag & ACC_PROTECTED) != 0 && (fieldOwner.equals(parentSlashName))
+                    || fieldOwner.startsWith(slashClassName+'$'))){
 //                LogUtils.agentInfo(fieldDesc);
+                // Todo: only ldc a single string to reduce the inserted code
+                super.visitLdcInsn(accessFlag);
                 super.visitLdcInsn(fieldOwner);
                 super.visitLdcInsn(fieldName);
                 super.visitLdcInsn(fieldDesc);
                 super.visitFieldInsn(GETSTATIC, fieldOwner, fieldName, fieldDesc);  // Todo: check if this is necessary first and then access the field to be more efficient
                 if (fieldDesc.equals("C") || fieldDesc.equals("S") || fieldDesc.equals("I") || fieldDesc.equals("J") || fieldDesc.equals("F") || fieldDesc.equals("D") || fieldDesc.equals("Z") || fieldDesc.equals("B")){
-                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
                 } else {
-                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
                 }
+            }
+            // For "final" and "volatile", will throw java.lang.IllegalAccessException: class xxx cannot access a member of class yyy with modifiers "private static volatile"
+            else if ((accessFlag & ACC_STATIC) != 0) {
+                super.visitLdcInsn(accessFlag);
+                super.visitLdcInsn(fieldOwner);
+                super.visitLdcInsn(fieldName);
+                super.visitLdcInsn(fieldDesc);
+                super.visitLdcInsn(fieldOwner.replace("/", "."));
+                super.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
+                super.visitLdcInsn(fieldName);
+                super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;", false);
+                super.visitInsn(DUP);
+                super.visitLdcInsn(true);
+                super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setAccessible", "(Z)V", false);
+                super.visitInsn(ACONST_NULL);
+                super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "get", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
+//                if (fieldDesc.equals("C")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Character");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Character", "charValue", "()C", false);
+//                } else if (fieldDesc.equals("S")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Short");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Short", "shortValue", "()S", false);
+//                } else if (fieldDesc.equals("I")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Integer");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+//                } else if (fieldDesc.equals("J")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Long");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Long", "longValue", "()J", false);
+//                } else if (fieldDesc.equals("F")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Float");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Float", "floatValue", "()F", false);
+//                } else if (fieldDesc.equals("D")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Double");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+//                } else if (fieldDesc.equals("Z")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+//                } else if (fieldDesc.equals("B")){
+//                    super.visitTypeInsn(CHECKCAST, "java/lang/Byte");
+//                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Byte", "byteValue", "()B", false);
+//                } else {
+//                    super.visitTypeInsn(CHECKCAST, Type.getType(fieldDesc).getInternalName());
+//                }
+//                if (fieldDesc.equals("C") || fieldDesc.equals("S") || fieldDesc.equals("I") || fieldDesc.equals("J") || fieldDesc.equals("F") || fieldDesc.equals("D") || fieldDesc.equals("Z") || fieldDesc.equals("B")){
+//                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;" + fieldDesc + ")V", false);
+//                } else {
+                    super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "checkFieldState", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
+//                }
             }
         }
         super.visitMethodInsn(INVOKESTATIC, STATE_RECORDER, "assertPollution", "()V", false);

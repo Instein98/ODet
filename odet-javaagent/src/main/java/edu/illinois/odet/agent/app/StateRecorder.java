@@ -7,19 +7,13 @@ import edu.illinois.odet.agent.utils.LogUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static edu.illinois.odet.agent.Config.ODET_TMP_DIR;
-import static edu.illinois.odet.agent.utils.CommonUtils.getDotClassNameFromTestIdentifier;
-import static edu.illinois.odet.agent.utils.CommonUtils.getFieldAccessFlag;
 import static edu.illinois.odet.agent.utils.CommonUtils.getFieldIdentifier;
-import static edu.illinois.odet.agent.utils.CommonUtils.slashToDotName;
 import static org.objectweb.asm.Opcodes.*;
 
 /**
@@ -122,39 +116,39 @@ public class StateRecorder {
     public static boolean needRecordField(String fieldIdentifier){
         if (currentTestIdStack.isEmpty())
             return false;
-        int access = getFieldAccessFlag(fieldIdentifier);
+        int access = Integer.parseInt(fieldIdentifier.substring(0, fieldIdentifier.indexOf('#')));
         return (access & ACC_STATIC) != 0;
     }
 
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, byte value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, byte value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, boolean value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, boolean value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, char value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, char value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, short value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, short value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, int value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, int value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, long value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, long value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, float value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, float value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, double value){
-        stateAccess(opcode, owner, name, descriptor, (Object) value);
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, double value){
+        stateAccess(accessFlag, owner, name, descriptor, (Object) value);
     }
 
-    public static void stateAccess(int opcode, String owner, String name, String descriptor, Object value){
+    public static void stateAccess(int accessFlag, String owner, String name, String descriptor, Object value){
         if (currentTestIdStack.isEmpty())
             return;
-        String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
+        String fieldIdentifier = getFieldIdentifier(accessFlag, owner, name, descriptor);
         if (needRecordField(fieldIdentifier)){
             for (String testIdentifier:currentTestIdStack){
                 if (!testAccessedFieldsMap.containsKey(testIdentifier)) {
@@ -171,43 +165,43 @@ public class StateRecorder {
                 // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
                 value = xs.fromXML(xs.toXML(value));
                 fieldValueMap.put(fieldIdentifier, value);
-                LogUtils.agentInfo("Recorded Field Access: " + fieldIdentifier);
+                LogUtils.agentInfo(String.format("Recorded Field Access: \"%s\" by test \"%s\"", fieldIdentifier, testIdentifier));
             }
         }
     }
 
-    public static void checkFieldState(String owner, String name, String descriptor, byte value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, byte value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, short value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, short value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, char value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, char value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, int value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, int value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, long value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, long value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, float value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, float value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, double value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, double value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
-    public static void checkFieldState(String owner, String name, String descriptor, boolean value){
-        checkFieldState(owner, name, descriptor, (Object) value);
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, boolean value){
+        checkFieldState(accessFlag, owner, name, descriptor, (Object) value);
     }
 
-    public static void checkFieldState(String owner, String name, String descriptor, Object value){
+    public static void checkFieldState(int accessFlag, String owner, String name, String descriptor, Object value){
         if (currentTestIdStack.isEmpty()){
             LogUtils.agentErr("[ERROR] currentTestIdentifier == null when try to check field state");
             return;
         }
-        // fieldIdentifier example: org/example/Test#name#Lorg/example/Name;
-        String fieldIdentifier = getFieldIdentifier(owner, name, descriptor);
+        // fieldIdentifier example: 0#org/example/Test#name#Lorg/example/Name;
+        String fieldIdentifier = getFieldIdentifier(accessFlag, owner, name, descriptor);
         for (String testIdentifier:currentTestIdStack){
             if (!testAccessedFieldsMap.containsKey(testIdentifier) || !testAccessedFieldsMap.get(testIdentifier).containsKey(fieldIdentifier)){
                 return;

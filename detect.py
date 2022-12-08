@@ -28,7 +28,7 @@ def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFail
     print('tests: ' + str(config['tests']))
     print()
 
-    sp.run('mvn test -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" {} -Dtest={} -Dmaven.test.failure.ignore=true -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip'.format(javaagentPath, instPrefix, executionConfigFileName, mvnArgs, ','.join(config['tests'])).split(), shell=False, universal_newlines=True, cwd=str(workDirPath))
+    sp.run('mvn test -Dsurefire.useFile=false -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" {} -Dtest={} -Dmaven.test.failure.ignore=true -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip'.format(javaagentPath, instPrefix, executionConfigFileName, mvnArgs, ','.join(config['tests'])).split(), shell=False, universal_newlines=True, cwd=str(workDirPath))
     print()
     print()
 
@@ -174,7 +174,7 @@ def main(instPrefix: str, mvnArgs:str):
     print('# Execution Iteration: {}'.format(executionIteration))
     print('# Executed Tests: {}'.format(executedTestsNum))
     print('Execution Cost: {}'.format(executionTimeCost))
-    print('='*50)
+    print('='*25 + ' Result ' + '='*25)
     for polluter in resultDict:
         print('Polluter: {}'.format(polluter))
         prettyPrint(resultDict[polluter])

@@ -17,8 +17,8 @@ public class CommonUtils {
 
     private static Map<String, Integer> fieldAccessFlagMap = new HashMap<>();
 
-    public static String getFieldIdentifier(String owner, String name, String desc){
-        return owner + "#" + name + "#" + desc;
+    public static String getFieldIdentifier(int accessFlag, String owner, String name, String desc){
+        return accessFlag + "#" + owner + "#" + name + "#" + desc;
     }
 
     public static String slashToDotName(String slashName){
@@ -29,10 +29,10 @@ public class CommonUtils {
         return testId.split("[#]")[0];
     }
 
-    public static int getFieldAccessFlag(String fieldId){
-        if (fieldId == null || !fieldAccessFlagMap.containsKey(fieldId))
+    public static int getFieldAccessFlag(String fieldIdWithoutFlag){
+        if (fieldIdWithoutFlag == null || !fieldAccessFlagMap.containsKey(fieldIdWithoutFlag))
             return 0;
-        return fieldAccessFlagMap.get(fieldId);
+        return fieldAccessFlagMap.get(fieldIdWithoutFlag);
     }
 
     public static void putFieldAccessFlag(String fieldId, int access){

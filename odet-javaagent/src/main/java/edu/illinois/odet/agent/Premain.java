@@ -16,6 +16,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Permission;
+import java.security.Policy;
+import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -87,7 +90,7 @@ public class Premain {
             cr.accept(cn, ClassReader.EXPAND_FRAMES);
             if (cn.fields == null) return;
             for (FieldNode fn: cn.fields){
-                String fieldIdentifier = getFieldIdentifier(cn.name, fn.name, fn.desc);
+                String fieldIdentifier = cn.name + "#" + fn.name + "#" + fn.desc;
                 putFieldAccessFlag(fieldIdentifier, fn.access);
             }
         } catch (Throwable t){

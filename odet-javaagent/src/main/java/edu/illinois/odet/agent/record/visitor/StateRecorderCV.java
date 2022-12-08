@@ -1,6 +1,7 @@
 package edu.illinois.odet.agent.record.visitor;
 
 import edu.illinois.odet.agent.Config;
+import edu.illinois.odet.agent.utils.CommonUtils;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
@@ -45,7 +46,8 @@ class StateAccessRecorderMV extends MethodVisitor {
     public void visitFieldInsn(int opcode, String owner, String name, String descriptor){
         // Todo: support GETFIELD and PUTFIELD
         if (opcode == GETSTATIC || opcode == PUTSTATIC) {
-            mv.visitLdcInsn(opcode);
+            int accessFlag = CommonUtils.getFieldAccessFlag(String.format("%s#%s#%s", owner, name, descriptor));
+            mv.visitLdcInsn(accessFlag);
             mv.visitLdcInsn(owner);
             mv.visitLdcInsn(name);
             mv.visitLdcInsn(descriptor);
