@@ -7,6 +7,7 @@ import edu.illinois.odet.agent.utils.LogUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,6 +71,7 @@ public class StateRecorder {
     }
 
     private static String serializeObject(Object value){
+        // Here should be able to serialize since the value is already serialized/deserialized when recording!
         String s = xs.toXML(value);
 //        System.out.println("Before serializaiton: " + value.toString());
 //        System.out.println("After serializaiton: " + s);
@@ -162,8 +164,15 @@ public class StateRecorder {
                 }
                 Map<String, Object> fieldValueMap = testAccessedFieldsMap.get(testIdentifier);
 
-                // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
-                value = xs.fromXML(xs.toXML(value));
+                try{
+                    // make a deep copy of the value, otherwise only the reference is recorded (can not detect value change)
+                    value = xs.fromXML(xs.toXML(value));
+                } catch (Throwable t){
+                    String msg = String.format("Failed to serialize %s for %s, skip recording access...", fieldIdentifier, testIdentifier);
+//                    LogUtils.agentErr(t);
+                    LogUtils.agentWarn(msg);
+                    return;
+                }
                 fieldValueMap.put(fieldIdentifier, value);
                 LogUtils.agentInfo(String.format("Recorded Field Access: \"%s\" by test \"%s\"", fieldIdentifier, testIdentifier));
             }
@@ -214,8 +223,15 @@ public class StateRecorder {
                 if (!testPollutedFieldsMap.containsKey(testIdentifier)){
                     testPollutedFieldsMap.put(testIdentifier, new HashMap<>());
                 }
-                // otherwise the value may change after later test execution
-                value = xs.fromXML(xs.toXML(value));
+                try{
+                    // otherwise the value may change after later test execution
+                    value = xs.fromXML(xs.toXML(value));
+                } catch (Throwable t){
+                    String msg = String.format("Failed to serialize %s for %s, skip recording pollution...", fieldIdentifier, testIdentifier);
+//                    LogUtils.agentErr(t);
+                    LogUtils.agentWarn(msg);
+                    return;
+                }
                 testPollutedFieldsMap.get(testIdentifier).put(fieldIdentifier, value);
             }
         }
@@ -317,6 +333,22 @@ public class StateRecorder {
             throw new RuntimeException(String.format("%s is polluted by %s!", simplifiedFieldId, testId));
         } else {
             System.out.printf("[PASS] %s is not polluted by %s%n", simplifiedFieldId, testId);
+        }
+    }
+
+    public static void getStaticFieldValueByReflectionThenCheckPollution(int acc, String fieldOwner, String fieldName, String fieldDesc){
+        try{
+//            System.out.println(String.format("Accessing %s#%s#%s", fieldOwner, fieldName, fieldDesc));
+            Class<?> targetClass = Class.forName(fieldOwner.replace("/", "."));
+            Field targetField = targetClass.getDeclaredField(fieldName);
+            targetField.setAccessible(true);
+            Object fieldValue = targetField.get(null);
+            checkFieldState(acc, fieldOwner, fieldName, fieldDesc, fieldValue);
+        } catch (IllegalAccessError x){
+            LogUtils.agentErr(String.format("IllegalAccessError: Can't get value of field %s#%s#%s by reflection, skipping", fieldOwner, fieldName, fieldDesc));
+            return;
+        } catch (Throwable t){
+            LogUtils.agentErr(t);
         }
     }
 }

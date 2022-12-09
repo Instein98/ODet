@@ -12,8 +12,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import static org.objectweb.asm.Opcodes.ACC_ENUM;
 import static org.objectweb.asm.Opcodes.ACC_FINAL;
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -173,46 +176,52 @@ class StateResetMV extends MethodVisitor {
                 String fieldDesc = tmp[3];
                 String serializationPath = stateToResetMap.get(fieldId);
 
-                if (fieldOwner.equals(slashClassName)
-                        || (accessFlag & ACC_STATIC) != 0 && ((accessFlag & ACC_PUBLIC) != 0
-                        || (accessFlag & ACC_PROTECTED) != 0 && (fieldOwner.equals(parentSlashName))
-                        || fieldOwner.startsWith(slashClassName + '$'))) {
-                    super.visitLdcInsn(serializationPath);
-                    super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateResetter", "deserialize",
-                            "(Ljava/lang/String;)Ljava/lang/Object;", false);
-                    super.visitTypeInsn(CHECKCAST, Type.getType(fieldDesc).getInternalName());
-                    super.visitFieldInsn(PUTSTATIC, fieldOwner, fieldName, fieldDesc);
+                if ((accessFlag & ACC_ENUM) != 0) {
+                    continue;
+                }
 
-                } else if ((accessFlag & ACC_STATIC) != 0) {
-                    super.visitLdcInsn(fieldOwner.replace("/", "."));
-                    super.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
-                    super.visitLdcInsn(fieldName);
-                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;", false);
-                    super.visitInsn(DUP);
-                    super.visitLdcInsn(true);
-                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setAccessible", "(Z)V", false);
+                if ((accessFlag & ACC_STATIC) != 0) {
+                    if (fieldOwner.equals(slashClassName)
+                            || (accessFlag & ACC_PUBLIC) != 0
+                            || ((accessFlag & ACC_PROTECTED) != 0 && (fieldOwner.equals(parentSlashName)))
+                            || fieldOwner.startsWith(slashClassName + '$')) {
+                        super.visitLdcInsn(serializationPath);
+                        super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateResetter", "deserialize",
+                                "(Ljava/lang/String;)Ljava/lang/Object;", false);
+                        super.visitTypeInsn(CHECKCAST, Type.getType(fieldDesc).getInternalName());
+                        super.visitFieldInsn(PUTSTATIC, fieldOwner, fieldName, fieldDesc);
 
-                    if ((accessFlag & ACC_FINAL) != 0 || (accessFlag & ACC_VOLATILE) != 0) {
-                        // change the field access flag (e.g., final) to allow assignment, see https://stackoverflow.com/a/3301720/11495796
-                        super.visitInsn(DUP);  // fieldToSet
-                        super.visitLdcInsn("java.lang.reflect.Field");
+                    } else if ((accessFlag & ACC_STATIC) != 0) {
+                        super.visitLdcInsn(fieldOwner.replace("/", "."));
                         super.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
-                        super.visitLdcInsn("modifiers");
+                        super.visitLdcInsn(fieldName);
                         super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;", false);
                         super.visitInsn(DUP);
                         super.visitLdcInsn(true);
-                        super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setAccessible", "(Z)V", false);  // fieldToSet, modifiersField
-                        super.visitInsn(SWAP);
-                        super.visitLdcInsn(accessFlag & ~ACC_FINAL & ~ACC_VOLATILE);  // modifiersField, fieldToSet, newAcc
-                        super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setInt", "(Ljava/lang/Object;I)V", false);  // fieldToSet, modifiersField
-                    }
+                        super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setAccessible", "(Z)V", false);
 
-                    super.visitInsn(ACONST_NULL);
-                    // deserialize the object
-                    super.visitLdcInsn(serializationPath);
-                    super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateResetter", "deserialize",
-                            "(Ljava/lang/String;)Ljava/lang/Object;", false);
-                    super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "set", "(Ljava/lang/Object;Ljava/lang/Object;)V", false);
+                        if ((accessFlag & ACC_FINAL) != 0 || (accessFlag & ACC_VOLATILE) != 0) {
+                            // change the field access flag (e.g., final) to allow assignment, see https://stackoverflow.com/a/3301720/11495796
+                            super.visitInsn(DUP);  // fieldToSet
+                            super.visitLdcInsn("java.lang.reflect.Field");
+                            super.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
+                            super.visitLdcInsn("modifiers");
+                            super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;", false);
+                            super.visitInsn(DUP);
+                            super.visitLdcInsn(true);
+                            super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setAccessible", "(Z)V", false);  // fieldToSet, modifiersField
+                            super.visitInsn(SWAP);
+                            super.visitLdcInsn(accessFlag & ~ACC_FINAL & ~ACC_VOLATILE);  // modifiersField, fieldToSet, newAcc
+                            super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "setInt", "(Ljava/lang/Object;I)V", false);  // fieldToSet, modifiersField
+                        }
+
+                        super.visitInsn(ACONST_NULL);
+                        // deserialize the object
+                        super.visitLdcInsn(serializationPath);
+                        super.visitMethodInsn(INVOKESTATIC, "edu/illinois/odet/agent/app/StateResetter", "deserialize",
+                                "(Ljava/lang/String;)Ljava/lang/Object;", false);
+                        super.visitMethodInsn(INVOKEVIRTUAL, "java/lang/reflect/Field", "set", "(Ljava/lang/Object;Ljava/lang/Object;)V", false);
+                    }
                 }
             }
         }

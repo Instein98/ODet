@@ -16,3 +16,9 @@
     }
 
 4. If private states of some classes are changed, how to record that?
+
+5. If surefire is configured argLine in pom.xml, then "-DargLine" when running `mvn test` will not take effect.
+
+6. Figure out how to fix "*** java.lang.instrument ASSERTION FAILED ***: "!errorOutstanding" with message transform method call failed at JPLISAgent.c line: 844" (maybe caused by XStream serializing too large object)
+
+7. Write a script to validate the output polluter-victim pairs (use -Dsurefire.runOrder to control the test execution order, requiring the surefire version >= 2.7)

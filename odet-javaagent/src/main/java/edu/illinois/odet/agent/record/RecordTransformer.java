@@ -1,11 +1,13 @@
 package edu.illinois.odet.agent.record;
 
 import com.google.common.collect.Sets;
+import edu.illinois.odet.agent.Config;
 import edu.illinois.odet.agent.Premain;
 import edu.illinois.odet.agent.record.visitor.InterceptJunitTestEventCV;
 import edu.illinois.odet.agent.record.visitor.StatePollutionCheckerCV;
 import edu.illinois.odet.agent.record.visitor.StateRecorderCV;
 import edu.illinois.odet.agent.utils.CommonUtils;
+import edu.illinois.odet.agent.utils.FileUtils;
 import edu.illinois.odet.agent.utils.LogUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;

@@ -44,9 +44,6 @@ public class DetectTransformer implements ClassFileTransformer {
     private HashMap<String, String> stateToResetMap = new HashMap<>();
 
     public DetectTransformer(String configFilePath){
-        if (!configFilePath.contains("/")){
-            configFilePath = ODET_TMP_DIR + '/' + configFilePath;
-        }
         try(FileReader fr = new FileReader(configFilePath)){
             JSONParser jsonParser = new JSONParser();
             JSONObject obj = (JSONObject) jsonParser.parse(fr);

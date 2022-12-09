@@ -9,8 +9,10 @@ import xml.etree.ElementTree as et
 
 # analyze the json files
 
-workDirPath = None
+projDirPath = None
+ModuleDirPath = None
 odetDirPath = None
+moduleName = None
 javaagentPath = "/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar"
 executionConfigFileName = 'tmpConfig.json'
 resultFileName = 'result.json'
@@ -28,11 +30,20 @@ def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFail
     print('tests: ' + str(config['tests']))
     print()
 
-    sp.run('mvn test -Dsurefire.useFile=false -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" {} -Dtest={} -Dmaven.test.failure.ignore=true -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip'.format(javaagentPath, instPrefix, executionConfigFileName, mvnArgs, ','.join(config['tests'])).split(), shell=False, universal_newlines=True, cwd=str(workDirPath))
+    cmd = 'mvn test {} -Dtest={} -Dsurefire.useFile=false -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" {} -Dmaven.test.failure.ignore=true -Dcheckstyle.skip -Drat.skip -Dfindbugs.skip -Denforcer.skip'.format('-pl {}'.format(moduleName) if moduleName is not None else '', ','.join(config['tests']), javaagentPath, instPrefix, str(odetDirPath/executionConfigFileName), mvnArgs)
+    print('Running: ' + cmd)
+    process = sp.run(cmd.split(), shell=False, universal_newlines=True, cwd=str(projDirPath))
+    print('Return Code: ' + str(process.returncode))
+    print()
+    if process.returncode != 0:
+        print('[ERROR] The process exit with code {}, probably caused by XStream deserialization exception!'.format(process.returncode))
+        print()
+        print()
+        return res
     print()
     print()
 
-    passedTestList, failedTestList = analyzeMvnTestResult(workDirPath)
+    passedTestList, failedTestList = analyzeMvnTestResult(ModuleDirPath)
 
     for test in passedTestList:
         if test in origFailedList:
@@ -42,10 +53,6 @@ def executeDetection(config: dict, instPrefix: str, origPassedTestList, origFail
             res.append(test)
 
     return res
-    # print('mvn test -DargLine="-javaagent:{}=instPrefix={};mode=detect;detectConfig={}" -Dtest={} -Dmaven.test.failure.ignore=true'.format(javaagentPath, instPrefix, executionConfigFileName, ','.join(config['tests'])))
-    # exit(0)
-
-    # print()
     
 def analyzeTestResult():
     """
@@ -102,7 +109,7 @@ def main(instPrefix: str, mvnArgs:str):
         print('[WARNING] pollutionInfo is empty')
 
     # analyze the current test results
-    origPassedTestList, origFailedTestList = analyzeMvnTestResult(workDirPath)
+    origPassedTestList, origFailedTestList = analyzeMvnTestResult(ModuleDirPath)
 
     # analyze the pollution that need to be reset and the tests need to be run
 
@@ -205,7 +212,10 @@ if __name__ == '__main__':
         module = args.module
     if args.arguments:
         argument = args.arguments
-    workDirPath = Path(args.projPath) / module
+    if module != '':
+        moduleName = module
+    projDirPath = Path(args.projPath)
+    ModuleDirPath = projDirPath / module
     instPrefix = Path(args.instPrefix)
-    odetDirPath = workDirPath / 'odet/'
+    odetDirPath = ModuleDirPath / 'odet/'
     main(instPrefix, argument)

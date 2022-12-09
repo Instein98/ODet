@@ -46,6 +46,7 @@ public class LogUtils {
     public static void agentErr(Throwable t){
         FileUtils.prepare(agentErrPath);
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(agentErrPath, true))){
+            t.printStackTrace();
             t.printStackTrace(new PrintWriter(bw));
         } catch (Throwable x){
             x.printStackTrace();
