@@ -1,0 +1,3 @@
+https://github.com/apache/shardingsphere-elasticjob,b022898ef1b8c984e17efb2a422ee45f6b13e46e,elastic-job-lite-core,io.elasticjob.lite.internal.sharding.ShardingListenerManagerTest.assertListenServersChangedJobListenerWhenIsInstanceChangeButJobInstanceIsShutdown,OD,Accepted,https://github.com/apache/shardingsphere-elasticjob/pull/592,
+mvn test -pl elastic-job-lite-core -Dtest=io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest -DargLine="-javaagent:/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar=instPrefix=io/elasticjob/lite/internal/"
+python3 -u detect.py /Users/yicheng/coursework/527/idoft/projects/shardingsphere-elasticjob io/elasticjob/lite/internal/ -m elastic-job-lite-core

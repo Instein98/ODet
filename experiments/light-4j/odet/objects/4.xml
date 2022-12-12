@@ -1,0 +1,26 @@
+<concurrent-hash-map>
+  <entry>
+    <string>one</string>
+    <io.dropwizard.metrics.MetricRegistry>
+      <metrics class="concurrent-hash-map"/>
+      <listeners class="java.util.concurrent.CopyOnWriteArrayList" serialization="custom">
+        <java.util.concurrent.CopyOnWriteArrayList>
+          <default/>
+          <int>0</int>
+        </java.util.concurrent.CopyOnWriteArrayList>
+      </listeners>
+    </io.dropwizard.metrics.MetricRegistry>
+  </entry>
+  <entry>
+    <string>foobah</string>
+    <io.dropwizard.metrics.MetricRegistry>
+      <metrics class="concurrent-hash-map"/>
+      <listeners class="java.util.concurrent.CopyOnWriteArrayList" serialization="custom">
+        <java.util.concurrent.CopyOnWriteArrayList>
+          <default/>
+          <int>0</int>
+        </java.util.concurrent.CopyOnWriteArrayList>
+      </listeners>
+    </io.dropwizard.metrics.MetricRegistry>
+  </entry>
+</concurrent-hash-map>

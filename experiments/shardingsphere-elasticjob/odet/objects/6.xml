@@ -1,0 +1,14 @@
+<io.elasticjob.lite.internal.schedule.JobRegistry>
+  <schedulerMap class="concurrent-hash-map"/>
+  <regCenterMap class="concurrent-hash-map"/>
+  <jobInstanceMap class="concurrent-hash-map">
+    <entry>
+      <string>test_job</string>
+      <io.elasticjob.lite.api.strategy.JobInstance>
+        <jobInstanceId>127.0.0.1@-@0</jobInstanceId>
+      </io.elasticjob.lite.api.strategy.JobInstance>
+    </entry>
+  </jobInstanceMap>
+  <jobRunningMap class="concurrent-hash-map"/>
+  <currentShardingTotalCountMap class="concurrent-hash-map"/>
+</io.elasticjob.lite.internal.schedule.JobRegistry>

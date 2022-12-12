@@ -1,0 +1,2154 @@
+<io.restassured.module.webtestclient.internal.BuilderBasedWebTestClientFactory>
+  <builder class="org.springframework.test.web.reactive.server.DefaultWebTestClientBuilder">
+    <webClientBuilder class="org.springframework.web.reactive.function.client.DefaultWebClientBuilder">
+      <connector class="org.springframework.test.web.reactive.server.WiretapConnector">
+        <delegate class="org.springframework.test.web.reactive.server.HttpHandlerConnector">
+          <handler class="org.springframework.web.server.adapter.HttpWebHandlerAdapter">
+            <delegate class="org.springframework.web.server.handler.ExceptionHandlingWebHandler">
+              <delegate class="org.springframework.web.server.handler.FilteringWebHandler">
+                <filters/>
+              </delegate>
+              <exceptionHandlers class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+                <c class="list"/>
+                <list reference="../c"/>
+              </exceptionHandlers>
+            </delegate>
+            <sessionManager class="org.springframework.web.server.session.DefaultWebSessionManager">
+              <sessionIdResolver class="org.springframework.web.server.session.CookieWebSessionIdResolver">
+                <cookieName>SESSION</cookieName>
+                <cookieMaxAge>PT-1S</cookieMaxAge>
+              </sessionIdResolver>
+              <sessionStore class="org.springframework.web.server.session.InMemoryWebSessionStore">
+                <maxSessions>10000</maxSessions>
+                <clock class="system-clock">
+                  <zone>GMT</zone>
+                </clock>
+                <sessions class="concurrent-hash-map"/>
+                <expiredSessionChecker>
+                  <lock>
+                    <sync class="java.util.concurrent.locks.ReentrantLock$NonfairSync" serialization="custom">
+                      <java.util.concurrent.locks.AbstractQueuedSynchronizer>
+                        <default>
+                          <state>0</state>
+                        </default>
+                      </java.util.concurrent.locks.AbstractQueuedSynchronizer>
+                      <java.util.concurrent.locks.ReentrantLock_-Sync>
+                        <default/>
+                      </java.util.concurrent.locks.ReentrantLock_-Sync>
+                    </sync>
+                  </lock>
+                  <checkTime>2022-12-10T05:12:16.244Z</checkTime>
+                  <outer-class reference="../.."/>
+                </expiredSessionChecker>
+              </sessionStore>
+            </sessionManager>
+            <codecConfigurer class="org.springframework.http.codec.support.DefaultServerCodecConfigurer">
+              <defaultCodecs class="org.springframework.http.codec.support.ServerDefaultCodecsImpl">
+                <enableLoggingRequestDetails>false</enableLoggingRequestDetails>
+                <registerDefaults>true</registerDefaults>
+              </defaultCodecs>
+              <customCodecs>
+                <typedReaders/>
+                <typedWriters/>
+                <objectReaders/>
+                <objectWriters/>
+              </customCodecs>
+            </codecConfigurer>
+            <localeContextResolver class="org.springframework.web.server.i18n.AcceptHeaderLocaleContextResolver">
+              <supportedLocales/>
+            </localeContextResolver>
+            <enableLoggingRequestDetails>false</enableLoggingRequestDetails>
+          </handler>
+        </delegate>
+        <exchanges class="concurrent-hash-map"/>
+      </connector>
+      <exchangeStrategies class="org.springframework.web.reactive.function.client.DefaultExchangeStrategiesBuilder$DefaultExchangeStrategies">
+        <readers class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+          <c class="list">
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.ByteArrayDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.util.MimeType>
+                  </a>
+                </decodableMimeTypes>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.ByteBufferDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </decodableMimeTypes>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.DataBufferDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </decodableMimeTypes>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.ResourceDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </decodableMimeTypes>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.StringDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale>en</locale>
+                        </m>
+                      </parameters>
+                    </org.springframework.util.MimeType>
+                  </a>
+                </decodableMimeTypes>
+                <delimiters>
+                  <string>&#xd;
+</string>
+                  <string>
+</string>
+                </delimiters>
+                <stripDelimiter>true</stripDelimiter>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>plain</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.FormHttpMessageReader>
+              <logger class="org.springframework.core.log.CompositeLog">
+                <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+              </logger>
+              <enableLoggingRequestDetails>false</enableLoggingRequestDetails>
+              <defaultCharset>UTF-8</defaultCharset>
+            </org.springframework.http.codec.FormHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.http.codec.json.Jackson2JsonDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <objectMapper>
+                  <__jsonFactory>
+                    <__factoryFeatures>15</__factoryFeatures>
+                    <__parserFeatures>16385</__parserFeatures>
+                    <__generatorFeatures>31</__generatorFeatures>
+                    <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                    <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" serialization="custom">
+                      <com.fasterxml.jackson.core.io.SerializedString>
+                        <string> </string>
+                      </com.fasterxml.jackson.core.io.SerializedString>
+                    </__rootValueSeparator>
+                    <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                    <__quoteChar>&quot;</__quoteChar>
+                  </__jsonFactory>
+                  <__typeFactory>
+                    <__typeCache serialization="custom">
+                      <com.fasterxml.jackson.databind.util.LRUMap>
+                        <int>0</int>
+                      </com.fasterxml.jackson.databind.util.LRUMap>
+                    </__typeCache>
+                    <__parser>
+                      <__factory reference="../.."/>
+                    </__parser>
+                  </__typeFactory>
+                  <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                  <__configOverrides>
+                    <__defaultInclusion>
+                      <__valueInclusion>USE_DEFAULTS</__valueInclusion>
+                      <__contentInclusion>USE_DEFAULTS</__contentInclusion>
+                    </__defaultInclusion>
+                    <__defaultSetterInfo>
+                      <__nulls>DEFAULT</__nulls>
+                      <__contentNulls>DEFAULT</__contentNulls>
+                    </__defaultSetterInfo>
+                    <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std">
+                      <__getterMinLevel>PUBLIC_ONLY</__getterMinLevel>
+                      <__isGetterMinLevel>PUBLIC_ONLY</__isGetterMinLevel>
+                      <__setterMinLevel>ANY</__setterMinLevel>
+                      <__creatorMinLevel>ANY</__creatorMinLevel>
+                      <__fieldMinLevel>PUBLIC_ONLY</__fieldMinLevel>
+                    </__visibilityChecker>
+                  </__configOverrides>
+                  <__mixIns/>
+                  <__serializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base>
+                      <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                      <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector">
+                        <__cfgConstructorPropertiesImpliesCreator>true</__cfgConstructorPropertiesImpliesCreator>
+                      </__annotationIntrospector>
+                      <__typeFactory reference="../../../__typeFactory"/>
+                      <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator"/>
+                      <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat">
+                        <__locale>en_US</__locale>
+                        <__tzSerializedWithColon>true</__tzSerializedWithColon>
+                      </__dateFormat>
+                      <__locale reference="../__dateFormat/__locale"/>
+                      <__defaultBase64>
+                        <__name>MIME-NO-LINEFEEDS</__name>
+                      </__defaultBase64>
+                    </__base>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl">
+                      <__shared class="empty-map"/>
+                    </__attributes>
+                    <__rootNames/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter">
+                      <__arrayIndenter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter"/>
+                      <__objectIndenter class="com.fasterxml.jackson.core.util.DefaultIndenter">
+                        <indents>                                </indents>
+                        <charsPerLevel>2</charsPerLevel>
+                        <eol>
+</eol>
+                      </__objectIndenter>
+                      <__rootSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../__jsonFactory/__rootValueSeparator"/>
+                      <__spacesInObjectEntries>true</__spacesInObjectEntries>
+                      <__separators>
+                        <objectFieldValueSeparator>:</objectFieldValueSeparator>
+                        <objectEntrySeparator>,</objectEntrySeparator>
+                        <arrayValueSeparator>,</arrayValueSeparator>
+                      </__separators>
+                      <__objectFieldValueSeparatorWithSpaces> : </__objectFieldValueSeparatorWithSpaces>
+                    </__defaultPrettyPrinter>
+                    <__serFeatures>10883900</__serFeatures>
+                    <__generatorFeatures>0</__generatorFeatures>
+                    <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                    <__formatWriteFeatures>0</__formatWriteFeatures>
+                    <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                  </__serializationConfig>
+                  <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                    <__serializerCache>
+                      <__sharedMap/>
+                      <__readOnlyMap/>
+                    </__serializerCache>
+                    <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer">
+                      <__handledType>java.lang.Object</__handledType>
+                    </__unknownTypeSerializer>
+                    <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer">
+                      <__handledType>java.lang.Object</__handledType>
+                    </__nullValueSerializer>
+                    <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer">
+                      <__handledType>java.lang.Object</__handledType>
+                      <__msg>Null key for a Map not allowed in JSON (use a converting NullKeySerializer?)</__msg>
+                    </__nullKeySerializer>
+                    <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                  </__serializerProvider>
+                  <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory">
+                    <__factoryConfig>
+                      <__additionalSerializers/>
+                      <__additionalKeySerializers reference="../__additionalSerializers"/>
+                      <__modifiers/>
+                    </__factoryConfig>
+                  </__serializerFactory>
+                  <__deserializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base reference="../../__serializationConfig/__base"/>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../__serializationConfig/__attributes"/>
+                    <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__nodeFactory>
+                      <__cfgBigDecimalExact>false</__cfgBigDecimalExact>
+                    </__nodeFactory>
+                    <__deserFeatures>237020288</__deserFeatures>
+                    <__parserFeatures>0</__parserFeatures>
+                    <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                    <__formatReadFeatures>0</__formatReadFeatures>
+                    <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                  </__deserializationConfig>
+                  <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                    <__cache>
+                      <__cachedDeserializers serialization="custom">
+                        <com.fasterxml.jackson.databind.util.LRUMap>
+                          <int>0</int>
+                        </com.fasterxml.jackson.databind.util.LRUMap>
+                      </__cachedDeserializers>
+                      <__incompleteDeserializers/>
+                    </__cache>
+                    <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory">
+                      <__factoryConfig>
+                        <__additionalDeserializers/>
+                        <__additionalKeyDeserializers>
+                          <com.fasterxml.jackson.databind.deser.std.StdKeyDeserializers/>
+                        </__additionalKeyDeserializers>
+                        <__modifiers/>
+                        <__abstractTypeResolvers/>
+                        <__valueInstantiators/>
+                      </__factoryConfig>
+                    </__factory>
+                    <__featureFlags>0</__featureFlags>
+                  </__deserializationContext>
+                  <__rootDeserializers/>
+                </objectMapper>
+                <mimeTypes class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+                  <c class="java.util.Arrays$ArrayList">
+                    <a class="org.springframework.util.MimeType-array">
+                      <org.springframework.util.MimeType>
+                        <type>application</type>
+                        <subtype>json</subtype>
+                        <parameters class="java.util.Collections$UnmodifiableMap">
+                          <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                            <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                              <unserializable-parents/>
+                              <map>
+                                <default>
+                                  <loadFactor>0.75</loadFactor>
+                                  <threshold>12</threshold>
+                                </default>
+                                <int>16</int>
+                                <int>1</int>
+                                <string>charset</string>
+                                <string>UTF-8</string>
+                              </map>
+                              <linked-hash-map>
+                                <default>
+                                  <accessOrder>false</accessOrder>
+                                </default>
+                              </linked-hash-map>
+                              <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                                <default>
+                                  <outer-class reference="../../../.."/>
+                                </default>
+                              </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                            </targetMap>
+                            <caseInsensitiveKeys>
+                              <entry>
+                                <string>charset</string>
+                                <string>charset</string>
+                              </entry>
+                            </caseInsensitiveKeys>
+                            <locale reference="../../../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                          </m>
+                        </parameters>
+                      </org.springframework.util.MimeType>
+                      <org.springframework.util.MimeType>
+                        <type>application</type>
+                        <subtype>*+json</subtype>
+                        <parameters class="java.util.Collections$UnmodifiableMap">
+                          <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                            <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                              <unserializable-parents/>
+                              <map>
+                                <default>
+                                  <loadFactor>0.75</loadFactor>
+                                  <threshold>12</threshold>
+                                </default>
+                                <int>16</int>
+                                <int>1</int>
+                                <string>charset</string>
+                                <string>UTF-8</string>
+                              </map>
+                              <linked-hash-map>
+                                <default>
+                                  <accessOrder>false</accessOrder>
+                                </default>
+                              </linked-hash-map>
+                              <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                                <default>
+                                  <outer-class reference="../../../.."/>
+                                </default>
+                              </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                            </targetMap>
+                            <caseInsensitiveKeys>
+                              <entry>
+                                <string>charset</string>
+                                <string>charset</string>
+                              </entry>
+                            </caseInsensitiveKeys>
+                            <locale reference="../../../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                          </m>
+                        </parameters>
+                      </org.springframework.util.MimeType>
+                    </a>
+                  </c>
+                  <list class="java.util.Arrays$ArrayList" reference="../c"/>
+                </mimeTypes>
+                <jsonFactory>
+                  <__factoryFeatures>7</__factoryFeatures>
+                  <__parserFeatures>16385</__parserFeatures>
+                  <__generatorFeatures>31</__generatorFeatures>
+                  <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper">
+                    <__jsonFactory class="com.fasterxml.jackson.databind.MappingJsonFactory">
+                      <__factoryFeatures>7</__factoryFeatures>
+                      <__parserFeatures>16385</__parserFeatures>
+                      <__generatorFeatures>31</__generatorFeatures>
+                      <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                      <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../objectMapper/__jsonFactory/__rootValueSeparator"/>
+                      <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                      <__quoteChar>&quot;</__quoteChar>
+                    </__jsonFactory>
+                    <__typeFactory reference="../../../objectMapper/__typeFactory"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                    <__configOverrides>
+                      <__defaultInclusion reference="../../../../objectMapper/__configOverrides/__defaultInclusion"/>
+                      <__defaultSetterInfo reference="../../../../objectMapper/__configOverrides/__defaultSetterInfo"/>
+                      <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std" reference="../../../../objectMapper/__configOverrides/__visibilityChecker"/>
+                    </__configOverrides>
+                    <__mixIns/>
+                    <__serializationConfig>
+                      <__mapperFeatures>117522171</__mapperFeatures>
+                      <__base>
+                        <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                        <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector" reference="../../../../../objectMapper/__serializationConfig/__base/__annotationIntrospector"/>
+                        <__typeFactory reference="../../../../../objectMapper/__typeFactory"/>
+                        <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator" reference="../../../../../objectMapper/__serializationConfig/__base/__typeValidator"/>
+                        <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat" reference="../../../../../objectMapper/__serializationConfig/__base/__dateFormat"/>
+                        <__locale reference="../../../../../objectMapper/__serializationConfig/__base/__dateFormat/__locale"/>
+                        <__defaultBase64 reference="../../../../../objectMapper/__serializationConfig/__base/__defaultBase64"/>
+                      </__base>
+                      <__mixIns reference="../../__mixIns"/>
+                      <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                      <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../objectMapper/__serializationConfig/__attributes"/>
+                      <__rootNames/>
+                      <__configOverrides reference="../../__configOverrides"/>
+                      <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter" reference="../../../../objectMapper/__serializationConfig/__defaultPrettyPrinter"/>
+                      <__serFeatures>10883900</__serFeatures>
+                      <__generatorFeatures>0</__generatorFeatures>
+                      <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                      <__formatWriteFeatures>0</__formatWriteFeatures>
+                      <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                    </__serializationConfig>
+                    <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                      <__serializerCache>
+                        <__sharedMap/>
+                        <__readOnlyMap/>
+                      </__serializerCache>
+                      <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer" reference="../../../../objectMapper/__serializerProvider/__unknownTypeSerializer"/>
+                      <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer" reference="../../../../objectMapper/__serializerProvider/__nullValueSerializer"/>
+                      <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer" reference="../../../../objectMapper/__serializerProvider/__nullKeySerializer"/>
+                      <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                    </__serializerProvider>
+                    <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory" reference="../../../objectMapper/__serializerFactory"/>
+                    <__deserializationConfig>
+                      <__mapperFeatures>117522171</__mapperFeatures>
+                      <__base reference="../../__serializationConfig/__base"/>
+                      <__mixIns reference="../../__mixIns"/>
+                      <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                      <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../objectMapper/__serializationConfig/__attributes"/>
+                      <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                      <__configOverrides reference="../../__configOverrides"/>
+                      <__nodeFactory reference="../../../../objectMapper/__deserializationConfig/__nodeFactory"/>
+                      <__deserFeatures>237020304</__deserFeatures>
+                      <__parserFeatures>0</__parserFeatures>
+                      <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                      <__formatReadFeatures>0</__formatReadFeatures>
+                      <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                    </__deserializationConfig>
+                    <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                      <__cache>
+                        <__cachedDeserializers serialization="custom">
+                          <com.fasterxml.jackson.databind.util.LRUMap>
+                            <int>0</int>
+                          </com.fasterxml.jackson.databind.util.LRUMap>
+                        </__cachedDeserializers>
+                        <__incompleteDeserializers/>
+                      </__cache>
+                      <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory" reference="../../../../objectMapper/__deserializationContext/__factory"/>
+                      <__featureFlags>0</__featureFlags>
+                    </__deserializationContext>
+                    <__rootDeserializers/>
+                  </__objectCodec>
+                  <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../objectMapper/__jsonFactory/__rootValueSeparator"/>
+                  <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                  <__quoteChar>&quot;</__quoteChar>
+                </jsonFactory>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>json</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>*+json</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.http.codec.xml.Jaxb2XmlDecoder">
+                <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                  <name>NOP</name>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>application</type>
+                      <subtype>xml</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.util.MimeType>
+                    <org.springframework.util.MimeType>
+                      <type>text</type>
+                      <subtype>xml</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.util.MimeType>
+                  </a>
+                </decodableMimeTypes>
+                <xmlEventDecoder>
+                  <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                    <name>NOP</name>
+                  </logger>
+                  <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                    <a class="org.springframework.util.MimeType-array">
+                      <org.springframework.util.MimeType reference="../../../../decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      <org.springframework.util.MimeType reference="../../../../decodableMimeTypes/a/org.springframework.util.MimeType[2]"/>
+                    </a>
+                  </decodableMimeTypes>
+                  <useAalto>false</useAalto>
+                </xmlEventDecoder>
+                <jaxbContexts>
+                  <jaxbContexts class="concurrent-hash-map"/>
+                </jaxbContexts>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>xml</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>xml</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+            <org.springframework.http.codec.ServerSentEventHttpMessageReader>
+              <decoder class="org.springframework.http.codec.json.Jackson2JsonDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <objectMapper>
+                  <__jsonFactory>
+                    <__factoryFeatures>15</__factoryFeatures>
+                    <__parserFeatures>16385</__parserFeatures>
+                    <__generatorFeatures>31</__generatorFeatures>
+                    <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                    <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                    <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                    <__quoteChar>&quot;</__quoteChar>
+                  </__jsonFactory>
+                  <__typeFactory reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                  <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                  <__configOverrides>
+                    <__defaultInclusion reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultInclusion"/>
+                    <__defaultSetterInfo reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultSetterInfo"/>
+                    <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__visibilityChecker"/>
+                  </__configOverrides>
+                  <__mixIns/>
+                  <__serializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base>
+                      <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                      <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__annotationIntrospector"/>
+                      <__typeFactory reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                      <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__typeValidator"/>
+                      <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat"/>
+                      <__locale reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat/__locale"/>
+                      <__defaultBase64 reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__defaultBase64"/>
+                    </__base>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                    <__rootNames/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter"/>
+                    <__serFeatures>10883900</__serFeatures>
+                    <__generatorFeatures>0</__generatorFeatures>
+                    <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                    <__formatWriteFeatures>0</__formatWriteFeatures>
+                    <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                  </__serializationConfig>
+                  <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                    <__serializerCache>
+                      <__sharedMap/>
+                      <__readOnlyMap/>
+                    </__serializerCache>
+                    <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__unknownTypeSerializer"/>
+                    <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullValueSerializer"/>
+                    <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullKeySerializer"/>
+                    <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                  </__serializerProvider>
+                  <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerFactory"/>
+                  <__deserializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base reference="../../__serializationConfig/__base"/>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                    <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__nodeFactory reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationConfig/__nodeFactory"/>
+                    <__deserFeatures>237020288</__deserFeatures>
+                    <__parserFeatures>0</__parserFeatures>
+                    <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                    <__formatReadFeatures>0</__formatReadFeatures>
+                    <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                  </__deserializationConfig>
+                  <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                    <__cache>
+                      <__cachedDeserializers serialization="custom">
+                        <com.fasterxml.jackson.databind.util.LRUMap>
+                          <int>0</int>
+                        </com.fasterxml.jackson.databind.util.LRUMap>
+                      </__cachedDeserializers>
+                      <__incompleteDeserializers/>
+                    </__cache>
+                    <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationContext/__factory"/>
+                    <__featureFlags>0</__featureFlags>
+                  </__deserializationContext>
+                  <__rootDeserializers/>
+                </objectMapper>
+                <mimeTypes class="java.util.Collections$UnmodifiableRandomAccessList" reference="../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/mimeTypes"/>
+                <jsonFactory>
+                  <__factoryFeatures>7</__factoryFeatures>
+                  <__parserFeatures>16385</__parserFeatures>
+                  <__generatorFeatures>31</__generatorFeatures>
+                  <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper">
+                    <__jsonFactory class="com.fasterxml.jackson.databind.MappingJsonFactory">
+                      <__factoryFeatures>7</__factoryFeatures>
+                      <__parserFeatures>16385</__parserFeatures>
+                      <__generatorFeatures>31</__generatorFeatures>
+                      <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                      <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                      <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                      <__quoteChar>&quot;</__quoteChar>
+                    </__jsonFactory>
+                    <__typeFactory reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                    <__configOverrides>
+                      <__defaultInclusion reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultInclusion"/>
+                      <__defaultSetterInfo reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultSetterInfo"/>
+                      <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__visibilityChecker"/>
+                    </__configOverrides>
+                    <__mixIns/>
+                    <__serializationConfig>
+                      <__mapperFeatures>117522171</__mapperFeatures>
+                      <__base>
+                        <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                        <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector" reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__annotationIntrospector"/>
+                        <__typeFactory reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                        <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator" reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__typeValidator"/>
+                        <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat" reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat"/>
+                        <__locale reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat/__locale"/>
+                        <__defaultBase64 reference="../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__defaultBase64"/>
+                      </__base>
+                      <__mixIns reference="../../__mixIns"/>
+                      <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                      <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                      <__rootNames/>
+                      <__configOverrides reference="../../__configOverrides"/>
+                      <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter"/>
+                      <__serFeatures>10883900</__serFeatures>
+                      <__generatorFeatures>0</__generatorFeatures>
+                      <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                      <__formatWriteFeatures>0</__formatWriteFeatures>
+                      <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                    </__serializationConfig>
+                    <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                      <__serializerCache>
+                        <__sharedMap/>
+                        <__readOnlyMap/>
+                      </__serializerCache>
+                      <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__unknownTypeSerializer"/>
+                      <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullValueSerializer"/>
+                      <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullKeySerializer"/>
+                      <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                    </__serializerProvider>
+                    <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory" reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerFactory"/>
+                    <__deserializationConfig>
+                      <__mapperFeatures>117522171</__mapperFeatures>
+                      <__base reference="../../__serializationConfig/__base"/>
+                      <__mixIns reference="../../__mixIns"/>
+                      <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                      <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                      <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                      <__configOverrides reference="../../__configOverrides"/>
+                      <__nodeFactory reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationConfig/__nodeFactory"/>
+                      <__deserFeatures>237020304</__deserFeatures>
+                      <__parserFeatures>0</__parserFeatures>
+                      <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                      <__formatReadFeatures>0</__formatReadFeatures>
+                      <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                    </__deserializationConfig>
+                    <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                      <__cache>
+                        <__cachedDeserializers serialization="custom">
+                          <com.fasterxml.jackson.databind.util.LRUMap>
+                            <int>0</int>
+                          </com.fasterxml.jackson.databind.util.LRUMap>
+                        </__cachedDeserializers>
+                        <__incompleteDeserializers/>
+                      </__cache>
+                      <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory" reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationContext/__factory"/>
+                      <__featureFlags>0</__featureFlags>
+                    </__deserializationContext>
+                    <__rootDeserializers/>
+                  </__objectCodec>
+                  <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                  <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                  <__quoteChar>&quot;</__quoteChar>
+                </jsonFactory>
+              </decoder>
+            </org.springframework.http.codec.ServerSentEventHttpMessageReader>
+            <org.springframework.http.codec.DecoderHttpMessageReader>
+              <decoder class="org.springframework.core.codec.StringDecoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <decodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.util.MimeType>
+                    <org.springframework.util.MimeType reference="../../../../../org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </decodableMimeTypes>
+                <delimiters>
+                  <string>&#xd;
+</string>
+                  <string>
+</string>
+                </delimiters>
+                <stripDelimiter>true</stripDelimiter>
+              </decoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>plain</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.DecoderHttpMessageReader>
+          </c>
+          <list reference="../c"/>
+        </readers>
+        <writers class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+          <c class="list">
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.core.codec.ByteArrayEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.core.codec.ByteBufferEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.core.codec.DataBufferEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.ResourceHttpMessageWriter>
+              <encoder>
+                <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                  <name>NOP</name>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>application</type>
+                      <subtype>octet-stream</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.util.MimeType>
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+                <bufferSize>4096</bufferSize>
+              </encoder>
+              <regionEncoder>
+                <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                  <name>NOP</name>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../encoder/encodableMimeTypes/a/org.springframework.util.MimeType"/>
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+                <bufferSize>4096</bufferSize>
+              </regionEncoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>octet-stream</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+            </org.springframework.http.codec.ResourceHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.core.codec.CharSequenceEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.util.MimeType>
+                  </a>
+                </encodableMimeTypes>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>plain</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+              <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.multipart.MultipartHttpMessageWriter>
+              <logger class="org.springframework.core.log.CompositeLog">
+                <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+              </logger>
+              <enableLoggingRequestDetails>false</enableLoggingRequestDetails>
+              <partWriters>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.core.codec.ByteArrayEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.core.codec.ByteBufferEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.core.codec.DataBufferEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.ResourceHttpMessageWriter>
+                  <encoder>
+                    <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                      <name>NOP</name>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../org.springframework.http.codec.ResourceHttpMessageWriter/encoder/encodableMimeTypes/a/org.springframework.util.MimeType"/>
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                    <bufferSize>4096</bufferSize>
+                  </encoder>
+                  <regionEncoder>
+                    <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                      <name>NOP</name>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../org.springframework.http.codec.ResourceHttpMessageWriter/encoder/encodableMimeTypes/a/org.springframework.util.MimeType"/>
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                    <bufferSize>4096</bufferSize>
+                  </regionEncoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>application</type>
+                      <subtype>octet-stream</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                    <org.springframework.http.MediaType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                </org.springframework.http.codec.ResourceHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.core.codec.CharSequenceEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType>
+                          <type>text</type>
+                          <subtype>plain</subtype>
+                          <parameters class="java.util.Collections$UnmodifiableMap">
+                            <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                              <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                                <unserializable-parents/>
+                                <map>
+                                  <default>
+                                    <loadFactor>0.75</loadFactor>
+                                    <threshold>12</threshold>
+                                  </default>
+                                  <int>16</int>
+                                  <int>1</int>
+                                  <string>charset</string>
+                                  <string>UTF-8</string>
+                                </map>
+                                <linked-hash-map>
+                                  <default>
+                                    <accessOrder>false</accessOrder>
+                                  </default>
+                                </linked-hash-map>
+                                <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                                  <default>
+                                    <outer-class reference="../../../.."/>
+                                  </default>
+                                </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              </targetMap>
+                              <caseInsensitiveKeys>
+                                <entry>
+                                  <string>charset</string>
+                                  <string>charset</string>
+                                </entry>
+                              </caseInsensitiveKeys>
+                              <locale reference="../../../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                            </m>
+                          </parameters>
+                        </org.springframework.util.MimeType>
+                      </a>
+                    </encodableMimeTypes>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                  <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.http.codec.json.Jackson2JsonEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <objectMapper>
+                      <__jsonFactory>
+                        <__factoryFeatures>15</__factoryFeatures>
+                        <__parserFeatures>16385</__parserFeatures>
+                        <__generatorFeatures>31</__generatorFeatures>
+                        <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                        <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                        <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                        <__quoteChar>&quot;</__quoteChar>
+                      </__jsonFactory>
+                      <__typeFactory reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                      <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                      <__configOverrides>
+                        <__defaultInclusion reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultInclusion"/>
+                        <__defaultSetterInfo reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultSetterInfo"/>
+                        <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__visibilityChecker"/>
+                      </__configOverrides>
+                      <__mixIns/>
+                      <__serializationConfig>
+                        <__mapperFeatures>117456635</__mapperFeatures>
+                        <__base>
+                          <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                          <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector" reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__annotationIntrospector"/>
+                          <__typeFactory reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                          <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator" reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__typeValidator"/>
+                          <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat" reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat"/>
+                          <__locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat/__locale"/>
+                          <__defaultBase64 reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__defaultBase64"/>
+                        </__base>
+                        <__mixIns reference="../../__mixIns"/>
+                        <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                        <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                        <__rootNames/>
+                        <__configOverrides reference="../../__configOverrides"/>
+                        <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter"/>
+                        <__serFeatures>10883900</__serFeatures>
+                        <__generatorFeatures>0</__generatorFeatures>
+                        <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                        <__formatWriteFeatures>0</__formatWriteFeatures>
+                        <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                      </__serializationConfig>
+                      <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                        <__serializerCache>
+                          <__sharedMap/>
+                          <__readOnlyMap/>
+                        </__serializerCache>
+                        <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__unknownTypeSerializer"/>
+                        <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullValueSerializer"/>
+                        <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullKeySerializer"/>
+                        <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                      </__serializerProvider>
+                      <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerFactory"/>
+                      <__deserializationConfig>
+                        <__mapperFeatures>117456635</__mapperFeatures>
+                        <__base reference="../../__serializationConfig/__base"/>
+                        <__mixIns reference="../../__mixIns"/>
+                        <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                        <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                        <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                        <__configOverrides reference="../../__configOverrides"/>
+                        <__nodeFactory reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationConfig/__nodeFactory"/>
+                        <__deserFeatures>237020288</__deserFeatures>
+                        <__parserFeatures>0</__parserFeatures>
+                        <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                        <__formatReadFeatures>0</__formatReadFeatures>
+                        <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                      </__deserializationConfig>
+                      <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                        <__cache>
+                          <__cachedDeserializers serialization="custom">
+                            <com.fasterxml.jackson.databind.util.LRUMap>
+                              <int>0</int>
+                            </com.fasterxml.jackson.databind.util.LRUMap>
+                          </__cachedDeserializers>
+                          <__incompleteDeserializers/>
+                        </__cache>
+                        <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory" reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationContext/__factory"/>
+                        <__featureFlags>0</__featureFlags>
+                      </__deserializationContext>
+                      <__rootDeserializers/>
+                    </objectMapper>
+                    <mimeTypes class="java.util.Collections$UnmodifiableRandomAccessList" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/mimeTypes"/>
+                    <streamingMediaTypes>
+                      <org.springframework.http.MediaType>
+                        <type>application</type>
+                        <subtype>stream+json</subtype>
+                        <parameters class="empty-map"/>
+                      </org.springframework.http.MediaType>
+                    </streamingMediaTypes>
+                    <ssePrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter">
+                      <__arrayIndenter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter/__arrayIndenter"/>
+                      <__objectIndenter class="com.fasterxml.jackson.core.util.DefaultIndenter">
+                        <indents>                                </indents>
+                        <charsPerLevel>2</charsPerLevel>
+                        <eol>
+data:</eol>
+                      </__objectIndenter>
+                      <__rootSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                      <__spacesInObjectEntries>true</__spacesInObjectEntries>
+                      <__separators reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter/__separators"/>
+                      <__objectFieldValueSeparatorWithSpaces> : </__objectFieldValueSeparatorWithSpaces>
+                    </ssePrettyPrinter>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>application</type>
+                      <subtype>json</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.http.MediaType>
+                    <org.springframework.http.MediaType>
+                      <type>application</type>
+                      <subtype>*+json</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                  <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.http.codec.xml.Jaxb2XmlEncoder">
+                    <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                      <name>NOP</name>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[7]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[7]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType[2]"/>
+                      </a>
+                    </encodableMimeTypes>
+                    <jaxbContexts>
+                      <jaxbContexts class="concurrent-hash-map"/>
+                    </jaxbContexts>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>application</type>
+                      <subtype>xml</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                    <org.springframework.http.MediaType>
+                      <type>text</type>
+                      <subtype>xml</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                  <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+                <org.springframework.http.codec.EncoderHttpMessageWriter>
+                  <encoder class="org.springframework.core.codec.CharSequenceEncoder">
+                    <logger class="org.springframework.core.log.CompositeLog">
+                      <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                      <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                    </logger>
+                    <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                      <a class="org.springframework.util.MimeType-array">
+                        <org.springframework.util.MimeType>
+                          <type>text</type>
+                          <subtype>plain</subtype>
+                          <parameters class="java.util.Collections$UnmodifiableMap">
+                            <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                              <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                                <unserializable-parents/>
+                                <map>
+                                  <default>
+                                    <loadFactor>0.75</loadFactor>
+                                    <threshold>12</threshold>
+                                  </default>
+                                  <int>16</int>
+                                  <int>1</int>
+                                  <string>charset</string>
+                                  <string>UTF-8</string>
+                                </map>
+                                <linked-hash-map>
+                                  <default>
+                                    <accessOrder>false</accessOrder>
+                                  </default>
+                                </linked-hash-map>
+                                <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                                  <default>
+                                    <outer-class reference="../../../.."/>
+                                  </default>
+                                </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              </targetMap>
+                              <caseInsensitiveKeys>
+                                <entry>
+                                  <string>charset</string>
+                                  <string>charset</string>
+                                </entry>
+                              </caseInsensitiveKeys>
+                              <locale reference="../../../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                            </m>
+                          </parameters>
+                        </org.springframework.util.MimeType>
+                        <org.springframework.util.MimeType reference="../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                      </a>
+                    </encodableMimeTypes>
+                  </encoder>
+                  <mediaTypes>
+                    <org.springframework.http.MediaType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.http.MediaType>
+                    <org.springframework.http.MediaType>
+                      <type>*</type>
+                      <subtype>*</subtype>
+                      <parameters class="empty-map"/>
+                    </org.springframework.http.MediaType>
+                  </mediaTypes>
+                  <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+                </org.springframework.http.codec.EncoderHttpMessageWriter>
+              </partWriters>
+              <formWriter class="org.springframework.http.codec.FormHttpMessageWriter">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <enableLoggingRequestDetails>false</enableLoggingRequestDetails>
+                <defaultCharset reference="../../../../../readers/c/org.springframework.http.codec.FormHttpMessageReader/defaultCharset"/>
+              </formWriter>
+              <charset reference="../../../../readers/c/org.springframework.http.codec.FormHttpMessageReader/defaultCharset"/>
+              <supportedMediaTypes class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+                <c class="list">
+                  <org.springframework.http.MediaType>
+                    <type>multipart</type>
+                    <subtype>form-data</subtype>
+                    <parameters class="empty-map"/>
+                  </org.springframework.http.MediaType>
+                  <org.springframework.http.MediaType>
+                    <type>application</type>
+                    <subtype>x-www-form-urlencoded</subtype>
+                    <parameters class="empty-map"/>
+                  </org.springframework.http.MediaType>
+                </c>
+                <list reference="../c"/>
+              </supportedMediaTypes>
+              <bufferFactory class="org.springframework.core.io.buffer.DefaultDataBufferFactory">
+                <preferDirect>false</preferDirect>
+                <defaultInitialCapacity>256</defaultInitialCapacity>
+              </bufferFactory>
+            </org.springframework.http.codec.multipart.MultipartHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.http.codec.json.Jackson2JsonEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <objectMapper>
+                  <__jsonFactory>
+                    <__factoryFeatures>15</__factoryFeatures>
+                    <__parserFeatures>16385</__parserFeatures>
+                    <__generatorFeatures>31</__generatorFeatures>
+                    <__objectCodec class="com.fasterxml.jackson.databind.ObjectMapper" reference="../.."/>
+                    <__rootValueSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                    <__maximumNonEscapedChar>0</__maximumNonEscapedChar>
+                    <__quoteChar>&quot;</__quoteChar>
+                  </__jsonFactory>
+                  <__typeFactory reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                  <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver"/>
+                  <__configOverrides>
+                    <__defaultInclusion reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultInclusion"/>
+                    <__defaultSetterInfo reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__defaultSetterInfo"/>
+                    <__visibilityChecker class="com.fasterxml.jackson.databind.introspect.VisibilityChecker$Std" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__configOverrides/__visibilityChecker"/>
+                  </__configOverrides>
+                  <__mixIns/>
+                  <__serializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base>
+                      <__classIntrospector class="com.fasterxml.jackson.databind.introspect.BasicClassIntrospector"/>
+                      <__annotationIntrospector class="com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__annotationIntrospector"/>
+                      <__typeFactory reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__typeFactory"/>
+                      <__typeValidator class="com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__typeValidator"/>
+                      <__dateFormat class="com.fasterxml.jackson.databind.util.StdDateFormat" reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat"/>
+                      <__locale reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__dateFormat/__locale"/>
+                      <__defaultBase64 reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__base/__defaultBase64"/>
+                    </__base>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                    <__rootNames/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__defaultPrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter"/>
+                    <__serFeatures>10883900</__serFeatures>
+                    <__generatorFeatures>0</__generatorFeatures>
+                    <__generatorFeaturesToChange>0</__generatorFeaturesToChange>
+                    <__formatWriteFeatures>0</__formatWriteFeatures>
+                    <__formatWriteFeaturesToChange>0</__formatWriteFeaturesToChange>
+                  </__serializationConfig>
+                  <__serializerProvider class="com.fasterxml.jackson.databind.ser.DefaultSerializerProvider$Impl">
+                    <__serializerCache>
+                      <__sharedMap/>
+                      <__readOnlyMap/>
+                    </__serializerCache>
+                    <__unknownTypeSerializer class="com.fasterxml.jackson.databind.ser.impl.UnknownSerializer" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__unknownTypeSerializer"/>
+                    <__nullValueSerializer class="com.fasterxml.jackson.databind.ser.std.NullSerializer" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullValueSerializer"/>
+                    <__nullKeySerializer class="com.fasterxml.jackson.databind.ser.impl.FailingSerializer" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerProvider/__nullKeySerializer"/>
+                    <__stdNullValueSerializer>true</__stdNullValueSerializer>
+                  </__serializerProvider>
+                  <__serializerFactory class="com.fasterxml.jackson.databind.ser.BeanSerializerFactory" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializerFactory"/>
+                  <__deserializationConfig>
+                    <__mapperFeatures>117456635</__mapperFeatures>
+                    <__base reference="../../__serializationConfig/__base"/>
+                    <__mixIns reference="../../__mixIns"/>
+                    <__subtypeResolver class="com.fasterxml.jackson.databind.jsontype.impl.StdSubtypeResolver" reference="../../__subtypeResolver"/>
+                    <__attributes class="com.fasterxml.jackson.databind.cfg.ContextAttributes$Impl" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__attributes"/>
+                    <__rootNames reference="../../__serializationConfig/__rootNames"/>
+                    <__configOverrides reference="../../__configOverrides"/>
+                    <__nodeFactory reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationConfig/__nodeFactory"/>
+                    <__deserFeatures>237020288</__deserFeatures>
+                    <__parserFeatures>0</__parserFeatures>
+                    <__parserFeaturesToChange>0</__parserFeaturesToChange>
+                    <__formatReadFeatures>0</__formatReadFeatures>
+                    <__formatReadFeaturesToChange>0</__formatReadFeaturesToChange>
+                  </__deserializationConfig>
+                  <__deserializationContext class="com.fasterxml.jackson.databind.deser.DefaultDeserializationContext$Impl">
+                    <__cache>
+                      <__cachedDeserializers serialization="custom">
+                        <com.fasterxml.jackson.databind.util.LRUMap>
+                          <int>0</int>
+                        </com.fasterxml.jackson.databind.util.LRUMap>
+                      </__cachedDeserializers>
+                      <__incompleteDeserializers/>
+                    </__cache>
+                    <__factory class="com.fasterxml.jackson.databind.deser.BeanDeserializerFactory" reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__deserializationContext/__factory"/>
+                    <__featureFlags>0</__featureFlags>
+                  </__deserializationContext>
+                  <__rootDeserializers/>
+                </objectMapper>
+                <mimeTypes class="java.util.Collections$UnmodifiableRandomAccessList" reference="../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/mimeTypes"/>
+                <streamingMediaTypes>
+                  <org.springframework.http.MediaType reference="../../../../org.springframework.http.codec.multipart.MultipartHttpMessageWriter/partWriters/org.springframework.http.codec.EncoderHttpMessageWriter[5]/encoder/streamingMediaTypes/org.springframework.http.MediaType"/>
+                </streamingMediaTypes>
+                <ssePrettyPrinter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter">
+                  <__arrayIndenter class="com.fasterxml.jackson.core.util.DefaultPrettyPrinter$FixedSpaceIndenter" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter/__arrayIndenter"/>
+                  <__objectIndenter class="com.fasterxml.jackson.core.util.DefaultIndenter">
+                    <indents>                                </indents>
+                    <charsPerLevel>2</charsPerLevel>
+                    <eol>
+data:</eol>
+                  </__objectIndenter>
+                  <__rootSeparator class="com.fasterxml.jackson.core.io.SerializedString" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__jsonFactory/__rootValueSeparator"/>
+                  <__spacesInObjectEntries>true</__spacesInObjectEntries>
+                  <__separators reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[6]/decoder/objectMapper/__serializationConfig/__defaultPrettyPrinter/__separators"/>
+                  <__objectFieldValueSeparatorWithSpaces> : </__objectFieldValueSeparatorWithSpaces>
+                </ssePrettyPrinter>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>json</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>*+json</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+              <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.http.codec.xml.Jaxb2XmlEncoder">
+                <logger class="org.apache.commons.logging.LogAdapter$Slf4jLog">
+                  <name>NOP</name>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[7]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[7]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType[2]"/>
+                  </a>
+                </encodableMimeTypes>
+                <jaxbContexts>
+                  <jaxbContexts class="concurrent-hash-map"/>
+                </jaxbContexts>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>application</type>
+                  <subtype>xml</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>xml</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+              <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+            <org.springframework.http.codec.EncoderHttpMessageWriter>
+              <encoder class="org.springframework.core.codec.CharSequenceEncoder">
+                <logger class="org.springframework.core.log.CompositeLog">
+                  <fatalLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <errorLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <warnLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <infoLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <debugLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                  <traceLogger class="org.apache.commons.logging.impl.NoOpLog" reference="../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/logger/fatalLogger"/>
+                </logger>
+                <encodableMimeTypes class="java.util.Arrays$ArrayList">
+                  <a class="org.springframework.util.MimeType-array">
+                    <org.springframework.util.MimeType>
+                      <type>text</type>
+                      <subtype>plain</subtype>
+                      <parameters class="java.util.Collections$UnmodifiableMap">
+                        <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                          <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                            <unserializable-parents/>
+                            <map>
+                              <default>
+                                <loadFactor>0.75</loadFactor>
+                                <threshold>12</threshold>
+                              </default>
+                              <int>16</int>
+                              <int>1</int>
+                              <string>charset</string>
+                              <string>UTF-8</string>
+                            </map>
+                            <linked-hash-map>
+                              <default>
+                                <accessOrder>false</accessOrder>
+                              </default>
+                            </linked-hash-map>
+                            <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                              <default>
+                                <outer-class reference="../../../.."/>
+                              </default>
+                            </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          </targetMap>
+                          <caseInsensitiveKeys>
+                            <entry>
+                              <string>charset</string>
+                              <string>charset</string>
+                            </entry>
+                          </caseInsensitiveKeys>
+                          <locale reference="../../../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                        </m>
+                      </parameters>
+                    </org.springframework.util.MimeType>
+                    <org.springframework.util.MimeType reference="../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader/decoder/decodableMimeTypes/a/org.springframework.util.MimeType"/>
+                  </a>
+                </encodableMimeTypes>
+              </encoder>
+              <mediaTypes>
+                <org.springframework.http.MediaType>
+                  <type>text</type>
+                  <subtype>plain</subtype>
+                  <parameters class="java.util.Collections$UnmodifiableMap">
+                    <m class="org.springframework.util.LinkedCaseInsensitiveMap">
+                      <targetMap class="org.springframework.util.LinkedCaseInsensitiveMap$1" serialization="custom">
+                        <unserializable-parents/>
+                        <map>
+                          <default>
+                            <loadFactor>0.75</loadFactor>
+                            <threshold>12</threshold>
+                          </default>
+                          <int>16</int>
+                          <int>1</int>
+                          <string>charset</string>
+                          <string>UTF-8</string>
+                        </map>
+                        <linked-hash-map>
+                          <default>
+                            <accessOrder>false</accessOrder>
+                          </default>
+                        </linked-hash-map>
+                        <org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                          <default>
+                            <outer-class reference="../../../.."/>
+                          </default>
+                        </org.springframework.util.LinkedCaseInsensitiveMap_-1>
+                      </targetMap>
+                      <caseInsensitiveKeys>
+                        <entry>
+                          <string>charset</string>
+                          <string>charset</string>
+                        </entry>
+                      </caseInsensitiveKeys>
+                      <locale reference="../../../../../../../../readers/c/org.springframework.http.codec.DecoderHttpMessageReader[5]/decoder/decodableMimeTypes/a/org.springframework.util.MimeType/parameters/m/locale"/>
+                    </m>
+                  </parameters>
+                </org.springframework.http.MediaType>
+                <org.springframework.http.MediaType>
+                  <type>*</type>
+                  <subtype>*</subtype>
+                  <parameters class="empty-map"/>
+                </org.springframework.http.MediaType>
+              </mediaTypes>
+              <defaultMediaType reference="../mediaTypes/org.springframework.http.MediaType"/>
+            </org.springframework.http.codec.EncoderHttpMessageWriter>
+          </c>
+          <list reference="../c"/>
+        </writers>
+      </exchangeStrategies>
+    </webClientBuilder>
+    <httpHandlerBuilder>
+      <filters/>
+      <exceptionHandlers/>
+      <sessionManager class="org.springframework.web.server.session.DefaultWebSessionManager" reference="../../webClientBuilder/connector/delegate/handler/sessionManager"/>
+    </httpHandlerBuilder>
+  </builder>
+</io.restassured.module.webtestclient.internal.BuilderBasedWebTestClientFactory>

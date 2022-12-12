@@ -1,0 +1,3 @@
+https://github.com/pholser/junit-quickcheck,9361b6dae25b193782604d071754eb7fc566390a,guava,com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest.arrayOfFunction,OD,Accepted,https://github.com/pholser/junit-quickcheck/pull/257,
+mvn test -pl guava -Dtest=FunctionPropertyParameterTypesTest#arrayOfFunction,FunctionPropertyParameterTypesTest#superShortToInteger -DargLine="-javaagent:/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar=instPrefix=com/pholser/junit/quickcheck/guava/generator"
+python3 detect.py /Users/yicheng/coursework/527/idoft/projects/junit-quickcheck/ com/pholser/junit/quickcheck/guava/generator -m guava

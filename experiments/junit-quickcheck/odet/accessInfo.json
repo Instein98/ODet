@@ -1,0 +1,6 @@
+{
+    "com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest$ArrayOfFunction#shouldHold": ["com\/pholser\/junit\/quickcheck\/guava\/generator\/FunctionPropertyParameterTypesTest$ArrayOfFunction#iterations#I"],
+    "com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#shouldHold": ["com\/pholser\/junit\/quickcheck\/guava\/generator\/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I"],
+    "com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#arrayOfFunction": ["com\/pholser\/junit\/quickcheck\/guava\/generator\/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I", "com\/pholser\/junit\/quickcheck\/guava\/generator\/FunctionPropertyParameterTypesTest$ArrayOfFunction#iterations#I"],
+    "com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#superShortToInteger": ["com\/pholser\/junit\/quickcheck\/guava\/generator\/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I"]
+}

@@ -1,0 +1,4 @@
+<java-class-array>
+  <java-class>com.alibaba.csp.sentinel.TracerTest$IgnoreException</java-class>
+  <java-class>com.alibaba.csp.sentinel.TracerTest$IgnoreException2</java-class>
+</java-class-array>

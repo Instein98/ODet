@@ -1,0 +1,5 @@
+<java-class-array>
+  <java-class>com.alibaba.csp.sentinel.TracerTest$TraceException</java-class>
+  <java-class>com.alibaba.csp.sentinel.TracerTest$TraceException2</java-class>
+  <java-class>com.alibaba.csp.sentinel.TracerTest$BothException</java-class>
+</java-class-array>

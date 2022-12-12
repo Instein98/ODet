@@ -1,0 +1,3 @@
+https://github.com/alibaba/Sentinel,7e2fa454fa0546c04142a268454faabac79370d0,sentinel-core,com.alibaba.csp.sentinel.config.SentinelConfigTest.testDefaultConfig,OD,Accepted,https://github.com/alibaba/Sentinel/pull/1859,
+mvn test -Dsurefire.useFile=false -pl sentinel-core -Dtest=com.alibaba.csp.sentinel.TracerTest  -DargLine="-javaagent:/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar=instPrefix=com/alibaba/csp/sentinel/Tracer"
+python3 -u detect.py /Users/yicheng/coursework/527/idoft/projects/Sentinel com/alibaba/csp/sentinel/Tracer -m sentinel-core 

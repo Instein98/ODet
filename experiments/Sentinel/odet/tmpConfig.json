@@ -1,0 +1,1 @@
+{"polluter": "com.alibaba.csp.sentinel.TracerTest#testTraceWhenContextSizeExceedsThreshold", "states": {"com/alibaba/csp/sentinel/Tracer#traceClasses#[Ljava/lang/Class;": "/Users/yicheng/coursework/527/idoft/projects/Sentinel/sentinel-core/odet//objects//8.xml"}, "tests": ["com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore"]}

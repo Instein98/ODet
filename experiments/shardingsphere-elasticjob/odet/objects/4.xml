@@ -1,0 +1,145 @@
+<io.elasticjob.lite.internal.schedule.JobRegistry>
+  <schedulerMap class="concurrent-hash-map">
+    <entry>
+      <string>test_job</string>
+      <io.elasticjob.lite.internal.schedule.JobScheduleController/>
+    </entry>
+  </schedulerMap>
+  <regCenterMap class="concurrent-hash-map">
+    <entry>
+      <string>test_job</string>
+      <io.elasticjob.lite.reg.base.CoordinatorRegistryCenter_-MockitoMock_-871039367>
+        <mockitoInterceptor>
+          <handler class="org.mockito.internal.handler.InvocationNotifierHandler">
+            <invocationListeners/>
+            <mockHandler class="org.mockito.internal.handler.NullResultGuardian">
+              <delegate class="org.mockito.internal.handler.MockHandlerImpl">
+                <invocationContainerImpl>
+                  <stubbed/>
+                  <answersForStubbing/>
+                  <registeredInvocations class="org.mockito.internal.verification.DefaultRegisteredInvocations">
+                    <invocations>
+                      <org.mockito.internal.creation.bytebuddy.InterceptedInvocation>
+                        <mock class="io.elasticjob.lite.reg.base.CoordinatorRegistryCenter$MockitoMock$871039367" reference="../../../../../../../../.."/>
+                        <mockitoMethod class="org.mockito.internal.creation.DelegatingMethod">
+                          <method>
+                            <class>io.elasticjob.lite.reg.base.CoordinatorRegistryCenter</class>
+                            <name>addCacheData</name>
+                            <parameter-types>
+                              <class>java.lang.String</class>
+                            </parameter-types>
+                          </method>
+                        </mockitoMethod>
+                        <arguments>
+                          <string>/test_job</string>
+                        </arguments>
+                        <rawArguments reference="../arguments"/>
+                        <superMethod class="org.mockito.internal.creation.bytebuddy.InterceptedInvocation$SuperMethod$IsIllegal">INSTANCE</superMethod>
+                        <sequenceNumber>7</sequenceNumber>
+                        <location class="org.mockito.internal.debugging.LocationImpl">
+                          <stackTraceHolder>
+                            <stackTrace>
+                              <trace>org.mockito.internal.debugging.LocationImpl.&lt;init&gt;(LocationImpl.java:22)</trace>
+                              <trace>org.mockito.internal.debugging.LocationImpl.&lt;init&gt;(LocationImpl.java:18)</trace>
+                              <trace>org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:43)</trace>
+                              <trace>org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptAbstract(MockMethodInterceptor.java:137)</trace>
+                              <trace>io.elasticjob.lite.reg.base.CoordinatorRegistryCenter$MockitoMock$871039367.addCacheData(Unknown Source)</trace>
+                              <trace>io.elasticjob.lite.internal.schedule.JobRegistry.registerJob(JobRegistry.java:75)</trace>
+                              <trace>io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest.assertRemoveLocalInstancePath(ShutdownListenerManagerTest.java:97)</trace>
+                              <trace>sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</trace>
+                              <trace>sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</trace>
+                              <trace>sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</trace>
+                              <trace>java.lang.reflect.Method.invoke(Method.java:498)</trace>
+                              <trace>org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)</trace>
+                              <trace>org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</trace>
+                              <trace>org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)</trace>
+                              <trace>org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</trace>
+                              <trace>org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)</trace>
+                              <trace>org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)</trace>
+                              <trace>org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)</trace>
+                              <trace>org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)</trace>
+                              <trace>org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</trace>
+                              <trace>org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</trace>
+                              <trace>org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</trace>
+                              <trace>org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</trace>
+                              <trace>org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</trace>
+                              <trace>org.junit.runners.ParentRunner.run(ParentRunner.java:363)</trace>
+                              <trace>org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:367)</trace>
+                              <trace>org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:274)</trace>
+                              <trace>org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:238)</trace>
+                              <trace>org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:161)</trace>
+                              <trace>org.apache.maven.surefire.booter.ForkedBooter.invokeProviderInSameClassLoader(ForkedBooter.java:290)</trace>
+                              <trace>org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:242)</trace>
+                              <trace>org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:121)</trace>
+                            </stackTrace>
+                            <suppressedExceptions class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
+                              <c class="list"/>
+                              <list reference="../c"/>
+                            </suppressedExceptions>
+                          </stackTraceHolder>
+                          <stackTraceFilter/>
+                        </location>
+                        <verified>false</verified>
+                        <isIgnoredForVerification>false</isIgnoredForVerification>
+                      </org.mockito.internal.creation.bytebuddy.InterceptedInvocation>
+                    </invocations>
+                  </registeredInvocations>
+                  <invocationForStubbing>
+                    <invocation class="org.mockito.internal.creation.bytebuddy.InterceptedInvocation" reference="../../registeredInvocations/invocations/org.mockito.internal.creation.bytebuddy.InterceptedInvocation"/>
+                    <matchers>
+                      <org.mockito.internal.matchers.Equals>
+                        <wanted class="string">/test_job</wanted>
+                      </org.mockito.internal.matchers.Equals>
+                    </matchers>
+                  </invocationForStubbing>
+                </invocationContainerImpl>
+                <matchersBinder/>
+                <mockSettings class="org.mockito.internal.creation.settings.CreationSettings">
+                  <typeToMock>io.elasticjob.lite.reg.base.CoordinatorRegistryCenter</typeToMock>
+                  <extraInterfaces/>
+                  <name>regCenter</name>
+                  <defaultAnswer class="org.mockito.Answers">RETURNS_DEFAULTS</defaultAnswer>
+                  <mockName class="org.mockito.internal.util.MockNameImpl">
+                    <mockName>regCenter</mockName>
+                    <defaultName>false</defaultName>
+                  </mockName>
+                  <serializableMode>NONE</serializableMode>
+                  <invocationListeners reference="../../../../invocationListeners"/>
+                  <stubbingLookupListeners/>
+                  <stubOnly>false</stubOnly>
+                  <useConstructor>false</useConstructor>
+                </mockSettings>
+              </delegate>
+            </mockHandler>
+          </handler>
+          <mockCreationSettings class="org.mockito.internal.creation.settings.CreationSettings" reference="../handler/mockHandler/delegate/mockSettings"/>
+          <serializationSupport>
+            <instanceLocalCurrentlySerializingFlag>false</instanceLocalCurrentlySerializingFlag>
+            <mutex class="java.util.concurrent.locks.ReentrantLock">
+              <sync class="java.util.concurrent.locks.ReentrantLock$NonfairSync" serialization="custom">
+                <java.util.concurrent.locks.AbstractQueuedSynchronizer>
+                  <default>
+                    <state>0</state>
+                  </default>
+                </java.util.concurrent.locks.AbstractQueuedSynchronizer>
+                <java.util.concurrent.locks.ReentrantLock_-Sync>
+                  <default/>
+                </java.util.concurrent.locks.ReentrantLock_-Sync>
+              </sync>
+            </mutex>
+          </serializationSupport>
+        </mockitoInterceptor>
+      </io.elasticjob.lite.reg.base.CoordinatorRegistryCenter_-MockitoMock_-871039367>
+    </entry>
+  </regCenterMap>
+  <jobInstanceMap class="concurrent-hash-map">
+    <entry>
+      <string>test_job</string>
+      <io.elasticjob.lite.api.strategy.JobInstance>
+        <jobInstanceId>127.0.0.1@-@0</jobInstanceId>
+      </io.elasticjob.lite.api.strategy.JobInstance>
+    </entry>
+  </jobInstanceMap>
+  <jobRunningMap class="concurrent-hash-map"/>
+  <currentShardingTotalCountMap class="concurrent-hash-map"/>
+</io.elasticjob.lite.internal.schedule.JobRegistry>

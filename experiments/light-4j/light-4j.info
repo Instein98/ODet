@@ -1,0 +1,3 @@
+https://github.com/networknt/light-4j,fcded1683dcbd41a968e221494778aa6b71e7428,metrics,io.dropwizard.metrics.SharedMetricRegistriesTest.hasASetOfNames,OD,Accepted,https://github.com/networknt/light-4j/pull/856,https://github.com/TestingResearchIllinois/flaky-test-dataset/issues/73
+mvn test -pl metrics -Dtest=io.dropwizard.metrics.SharedMetricRegistriesTest -DargLine="-javaagent:/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar=instPrefix=io/dropwizard/metrics/SharedMetricRegistries" -Dsurefire.useFile=false
+python3 -u detect.py /Users/yicheng/coursework/527/idoft/projects/light-4j io/dropwizard/metrics/SharedMetricRegistries -m metrics
