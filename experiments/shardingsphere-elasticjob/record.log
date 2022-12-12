@@ -1,0 +1,57 @@
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------< io.elasticjob:elastic-job-lite-core >-----------------
+[INFO] Building elastic-job-lite-core 3.0.0.M1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.4:enforce (enforce-banned-dependencies) @ elastic-job-lite-core ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.7:resources (default-resources) @ elastic-job-lite-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/yicheng/coursework/527/idoft/projects/shardingsphere-elasticjob/elastic-job-lite-core/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:compile (default-compile) @ elastic-job-lite-core ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.7:testResources (default-testResources) @ elastic-job-lite-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 5 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.3:testCompile (default-testCompile) @ elastic-job-lite-core ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.19.1:test (default-test) @ elastic-job-lite-core ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[ODET][INFO] ******** Premain Start ********
+Running io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertIsShutdownAlready"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertIsShutdownAlready execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertUpdateLocalInstancePath"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertUpdateLocalInstancePath execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePath"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePath execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePathForReconnectedRegistryCenter"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePathForReconnectedRegistryCenter execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertStart"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertStart execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePathForPausedJob"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertRemoveLocalInstancePathForPausedJob execution!
+[ODET][INFO] Recorded Field Access: "74#io/elasticjob/lite/internal/schedule/JobRegistry#instance#Lio/elasticjob/lite/internal/schedule/JobRegistry;" by test "io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertIsNotLocalInstancePath"
+[ODET][INFO] Value of 74#io/elasticjob/lite/internal/schedule/JobRegistry#instance changed after test io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest#assertIsNotLocalInstancePath execution!
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.389 sec - in io.elasticjob.lite.internal.instance.ShutdownListenerManagerTest
+
+Results :
+
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.489 s
+[INFO] Finished at: 2022-12-09T11:20:15-06:00
+[INFO] ------------------------------------------------------------------------

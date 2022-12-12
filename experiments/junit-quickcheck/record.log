@@ -1,0 +1,94 @@
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.pholser:junit-quickcheck-core:jar:0.9-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:findbugs-maven-plugin is missing. @ line 95, column 21
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.pholser:junit-quickcheck-generators:jar:0.9-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:findbugs-maven-plugin is missing. @ line 90, column 21
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.pholser:junit-quickcheck-guava:jar:0.9-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:findbugs-maven-plugin is missing. @ line 89, column 21
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.pholser:junit-quickcheck-examples:jar:0.9-SNAPSHOT
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:findbugs-maven-plugin is missing. @ line 86, column 21
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -----------------< com.pholser:junit-quickcheck-guava >-----------------
+[INFO] Building junit-quickcheck-guava 0.9-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-enforcer-plugin:1.2:enforce (enforce-maven) @ junit-quickcheck-guava ---
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.6.201602180812:prepare-agent (default-prepare-agent) @ junit-quickcheck-guava ---
+[INFO] argLine set to -javaagent:/Users/yicheng/.m2/repository/org/jacoco/org.jacoco.agent/0.7.6.201602180812/org.jacoco.agent-0.7.6.201602180812-runtime.jar=destfile=/Users/yicheng/coursework/527/idoft/projects/junit-quickcheck/guava/target/jacoco.exec
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ junit-quickcheck-guava ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/yicheng/coursework/527/idoft/projects/junit-quickcheck/guava/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.5.1:compile (default-compile) @ junit-quickcheck-guava ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-checkstyle-plugin:2.17:check (default) @ junit-quickcheck-guava ---
+[INFO] 
+[INFO] >>> maven-pmd-plugin:3.6:cpd-check (default) > :cpd @ junit-quickcheck-guava >>>
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.6:cpd (cpd) @ junit-quickcheck-guava ---
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[WARNING] Unable to locate Source XRef to link to - DISABLED
+[INFO] 
+[INFO] <<< maven-pmd-plugin:3.6:cpd-check (default) < :cpd @ junit-quickcheck-guava <<<
+[INFO] 
+[INFO] 
+[INFO] --- maven-pmd-plugin:3.6:cpd-check (default) @ junit-quickcheck-guava ---
+[INFO] 
+[INFO] 
+[INFO] --- serviceloader-maven-plugin:1.0.7:generate (default) @ junit-quickcheck-guava ---
+[INFO] Scanning generated classes for implementations...
+[INFO] Generating service file /Users/yicheng/coursework/527/idoft/projects/junit-quickcheck/guava/target/classes/META-INF/services/com.pholser.junit.quickcheck.generator.Generator
+[INFO]   + com.pholser.junit.quickcheck.guava.generator.FunctionGenerator
+[INFO]   + com.pholser.junit.quickcheck.guava.generator.PredicateGenerator
+[INFO]   + com.pholser.junit.quickcheck.guava.generator.OptionalGenerator
+[INFO]   + com.pholser.junit.quickcheck.guava.generator.SupplierGenerator
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ junit-quickcheck-guava ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/yicheng/coursework/527/idoft/projects/junit-quickcheck/guava/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.5.1:testCompile (default-testCompile) @ junit-quickcheck-guava ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.19.1:test (default-test) @ junit-quickcheck-guava ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[ODET][INFO] ******** Premain Start ********
+Running com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest
+[ODET][WARNING] Nested tests detected: com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#shouldHold in com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#superShortToInteger
+[ODET][INFO] Recorded Field Access: com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I
+[ODET][INFO] Recorded Field Access: com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I
+[ODET][INFO] Value of com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations changed after test com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#superShortToInteger execution!
+[ODET][WARNING] Nested tests detected: com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest$ArrayOfFunction#shouldHold in com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#arrayOfFunction
+[ODET][INFO] Recorded Field Access: com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$ArrayOfFunction#iterations#I
+[ODET][INFO] Recorded Field Access: com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$ArrayOfFunction#iterations#I
+[ODET][INFO] Recorded Field Access: com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$SuperShortToExtendsInteger#iterations#I
+[ODET][INFO] Value of com/pholser/junit/quickcheck/guava/generator/FunctionPropertyParameterTypesTest$ArrayOfFunction#iterations changed after test com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest#arrayOfFunction execution!
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.855 sec - in com.pholser.junit.quickcheck.guava.generator.FunctionPropertyParameterTypesTest
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.315 s
+[INFO] Finished at: 2022-12-08T18:32:25-06:00
+[INFO] ------------------------------------------------------------------------

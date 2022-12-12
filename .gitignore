@@ -6,6 +6,7 @@ target/
 
 # Log file
 *.log
+!experiments/*/*.log
 
 # Package Files #
 *.jar

@@ -1,0 +1,76 @@
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO] 
+[INFO] -----------------------< com.networknt:metrics >------------------------
+[INFO] Building metrics 2.0.22-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.3:prepare-agent (pre-unit-test) @ metrics ---
+[INFO] argLine set to -javaagent:/Users/yicheng/.m2/repository/org/jacoco/org.jacoco.agent/0.8.3/org.jacoco.agent-0.8.3-runtime.jar=destfile=/Users/yicheng/coursework/527/idoft/projects/light-4j/metrics/target/coverage-reports/jacoco-ut.exec
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ metrics ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ metrics ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- build-helper-maven-plugin:3.0.0:add-test-source (add-test-source) @ metrics ---
+[INFO] Test Source directory: /Users/yicheng/coursework/527/idoft/projects/light-4j/metrics/src/integration/java added.
+[INFO] 
+[INFO] --- build-helper-maven-plugin:3.0.0:add-test-resource (add-test-resource) @ metrics ---
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ metrics ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] skip non existing resourceDirectory /Users/yicheng/coursework/527/idoft/projects/light-4j/metrics\src\integration\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ metrics ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.19.1:test (default-test) @ metrics ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[ODET][INFO] ******** Premain Start ********
+Running io.dropwizard.metrics.SharedMetricRegistriesTest
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultAlreadySet"
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#defaultRegistryName#Ljava/lang/String;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultAlreadySet"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultAlreadySet execution!
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by edu.illinois.odet.agent.com.thoughtworks.xstream.core.util.SerializationMembers (file:/Users/yicheng/.m2/repository/edu/illinois/odet-javaagent/1.0-SNAPSHOT/odet-javaagent-1.0-SNAPSHOT.jar) to method java.util.concurrent.CopyOnWriteArrayList.readObject(java.io.ObjectInputStream)
+WARNING: Please consider reporting this to the maintainers of edu.illinois.odet.agent.com.thoughtworks.xstream.core.util.SerializationMembers
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#defaultRegistryName changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultAlreadySet execution!
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#clearsRegistries"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#clearsRegistries execution!
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#removesRegistries"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#removesRegistries execution!
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#memorizesRegistriesByName"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#memorizesRegistriesByName execution!
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#hasASetOfNames"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#hasASetOfNames execution!
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#defaultRegistryName#Ljava/lang/String;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultUnset"
+[ODET][INFO] Recorded Field Access: "io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES#Ljava/util/concurrent/ConcurrentMap;" by test "io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultUnset"
+[ODET][INFO] Value of io/dropwizard/metrics/SharedMetricRegistries#REGISTRIES changed after test io.dropwizard.metrics.SharedMetricRegistriesTest#errorsWhenDefaultUnset execution!
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 sec - in io.dropwizard.metrics.SharedMetricRegistriesTest
+
+Results :
+
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.3:report (post-unit-test) @ metrics ---
+[INFO] Loading execution data file /Users/yicheng/coursework/527/idoft/projects/light-4j/metrics/target/coverage-reports/jacoco-ut.exec
+[INFO] Analyzed bundle 'metrics' with 88 classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.818 s
+[INFO] Finished at: 2022-12-09T01:05:57-06:00
+[INFO] ------------------------------------------------------------------------

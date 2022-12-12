@@ -1,0 +1,84 @@
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.alibaba.csp:sentinel-annotation-quarkus-adapter-deployment:jar:1.8.1-SNAPSHOT
+[WARNING] 'dependencies.dependency.(groupId:artifactId:type:classifier)' must be unique: io.quarkus:quarkus-arc-deployment:jar -> duplicate declaration of version (?) @ line 47, column 21
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for com.alibaba.csp:sentinel-demo-log-logback:jar:1.8.1-SNAPSHOT
+[WARNING] 'dependencies.dependency.version' for com.github.stefanbirkner:system-rules:jar is either LATEST or RELEASE (both of them are being deprecated) @ line 40, column 22
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] 
+[INFO] -------------------< com.alibaba.csp:sentinel-core >--------------------
+[INFO] Building sentinel-core 1.8.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.3:prepare-agent (default) @ sentinel-core ---
+[INFO] argLine set to -javaagent:/Users/yicheng/.m2/repository/org/jacoco/org.jacoco.agent/0.8.3/org.jacoco.agent-0.8.3-runtime.jar=destfile=/Users/yicheng/coursework/527/idoft/projects/Sentinel/sentinel-core/target/jacoco.exec
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ sentinel-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ sentinel-core ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ sentinel-core ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/yicheng/coursework/527/idoft/projects/Sentinel/sentinel-core/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ sentinel-core ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12:test (default-test) @ sentinel-core ---
+[INFO] Surefire report directory: /Users/yicheng/coursework/527/idoft/projects/Sentinel/sentinel-core/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Picked up _JAVA_OPTIONS: -Dapple.awt.UIElement=true
+[ODET][INFO] ******** Premain Start ********
+Running com.alibaba.csp.sentinel.TracerTest
+INFO: Sentinel log output type is: file
+INFO: Sentinel log charset is: utf-8
+INFO: Sentinel log base directory is: /Users/yicheng/logs/csp/
+INFO: Sentinel log name use pid is: false
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#ignoreClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#testBoth"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#traceClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#testBoth"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#exceptionPredicate#Lcom/alibaba/csp/sentinel/util/function/Predicate;" by test "com.alibaba.csp.sentinel.TracerTest#testBoth"
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#ignoreClasses changed after test com.alibaba.csp.sentinel.TracerTest#testBoth execution!
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#traceClasses changed after test com.alibaba.csp.sentinel.TracerTest#testBoth execution!
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#ignoreClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToTrace"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#traceClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToTrace"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#exceptionPredicate#Lcom/alibaba/csp/sentinel/util/function/Predicate;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToTrace"
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#ignoreClasses changed after test com.alibaba.csp.sentinel.TracerTest#setExceptionsToTrace execution!
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#traceClasses changed after test com.alibaba.csp.sentinel.TracerTest#setExceptionsToTrace execution!
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#exceptionPredicate#Lcom/alibaba/csp/sentinel/util/function/Predicate;" by test "com.alibaba.csp.sentinel.TracerTest#testTraceWhenContextSizeExceedsThreshold"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#ignoreClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#testTraceWhenContextSizeExceedsThreshold"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#traceClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#testTraceWhenContextSizeExceedsThreshold"
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#traceClasses changed after test com.alibaba.csp.sentinel.TracerTest#testTraceWhenContextSizeExceedsThreshold execution!
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#ignoreClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#traceClasses#[Ljava/lang/Class;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore"
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#exceptionPredicate#Lcom/alibaba/csp/sentinel/util/function/Predicate;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore"
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#ignoreClasses changed after test com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore execution!
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#traceClasses changed after test com.alibaba.csp.sentinel.TracerTest#setExceptionsToIgnore execution!
+[ODET][INFO] Recorded Field Access: "com/alibaba/csp/sentinel/Tracer#exceptionPredicate#Lcom/alibaba/csp/sentinel/util/function/Predicate;" by test "com.alibaba.csp.sentinel.TracerTest#setExceptionPredicate"
+[ODET][INFO] Value of com/alibaba/csp/sentinel/Tracer#exceptionPredicate changed after test com.alibaba.csp.sentinel.TracerTest#setExceptionPredicate execution!
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.745 sec
+
+Results :
+
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.8.3:report (report) @ sentinel-core ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.042 s
+[INFO] Finished at: 2022-12-08T20:41:50-06:00
+[INFO] ------------------------------------------------------------------------
